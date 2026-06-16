@@ -1,216 +1,627 @@
-```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desarrollo de Aplicaciones Web</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sitio web académico de Desarrollo de Aplicaciones Web elaborado con HTML5, CSS3, Bootstrap y diseño responsivo.">
+  <meta name="author" content="Janina Alexandra Jumbo Rogel">
+  <title>Desarrollo de Aplicaciones Web | DAW UEA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --azul:#102a43;
+      --azul-profundo:#071a2c;
+      --verde:#0f766e;
+      --turquesa:#13b8a6;
+      --verde-suave:#e9fbf8;
+      --gris:#5f6c7b;
+      --blanco:#ffffff;
+      --sombra:0 22px 55px rgba(15, 42, 67, .16);
+    }
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:#13202e;
+      background:#fff;
+      line-height:1.75;
+    }
 
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background-color:#f4f4f4;
-        }
+    .navbar{
+      background:rgba(7,26,44,.96);
+      backdrop-filter:blur(10px);
+      box-shadow:0 10px 28px rgba(7,26,44,.2);
+    }
+    .navbar-brand{
+      font-weight:900;
+      letter-spacing:.6px;
+      color:#fff!important;
+    }
+    .nav-link{
+      color:rgba(255,255,255,.82)!important;
+      font-weight:650;
+      margin-left:.4rem;
+    }
+    .nav-link:hover,
+    .nav-link:focus{color:#99f6e4!important;}
 
-        header{
-            background:#0d6efd;
-            color:white;
-            padding:40px;
-            text-align:center;
-        }
+    .hero{
+      min-height:92vh;
+      display:flex;
+      align-items:center;
+      text-align:center;
+      color:white;
+      padding:7.5rem 0 5rem;
+      background:
+        linear-gradient(120deg,rgba(7,26,44,.86),rgba(15,118,110,.78)),
+        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop") center/cover no-repeat;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      left:-8%;
+      right:-8%;
+      bottom:-18%;
+      height:260px;
+      background:rgba(255,255,255,.16);
+      border-radius:55% 55% 0 0;
+    }
+    .hero .container{position:relative;z-index:1;}
+    .etiqueta{
+      display:inline-block;
+      padding:.65rem 1.2rem;
+      border-radius:999px;
+      background:rgba(255,255,255,.94);
+      color:var(--azul-profundo);
+      font-weight:800;
+      margin-bottom:1rem;
+      box-shadow:0 12px 24px rgba(7,26,44,.18);
+    }
+    .hero h1{
+      font-size:clamp(2.4rem,6vw,4.9rem);
+      font-weight:950;
+      letter-spacing:-1.6px;
+      line-height:1.05;
+      margin-bottom:1.2rem;
+      text-shadow:0 14px 32px rgba(0,0,0,.24);
+    }
+    .hero p{
+      max-width:860px;
+      margin:0 auto;
+      font-size:clamp(1rem,2vw,1.25rem);
+      color:rgba(255,255,255,.94);
+    }
+    .btn-hero{
+      border-radius:15px;
+      padding:.9rem 1.35rem;
+      font-weight:800;
+      transition:.25s ease;
+    }
+    .btn-hero:hover{transform:translateY(-2px);}
 
-        section{
-            margin-top:20px;
-        }
+    .section-pad{padding:5.4rem 0;}
+    .bg-suave{background:linear-gradient(180deg,#f2fbfa,#ffffff);}
+    .bg-verde{background:var(--verde-suave);}
+    .titulo-seccion{
+      font-weight:950;
+      color:var(--azul);
+      letter-spacing:-.6px;
+      margin-bottom:1rem;
+    }
+    .titulo-seccion::after{
+      content:"";
+      display:block;
+      width:74px;
+      height:5px;
+      margin-top:.65rem;
+      border-radius:20px;
+      background:var(--turquesa);
+    }
+    .titulo-centro{
+      text-align:center;
+      font-weight:950;
+      color:var(--azul);
+      letter-spacing:-.6px;
+      margin-bottom:.9rem;
+    }
+    .titulo-centro::after{
+      content:"";
+      display:block;
+      width:86px;
+      height:5px;
+      margin:.75rem auto 0;
+      border-radius:20px;
+      background:var(--turquesa);
+    }
+    .texto-gris{color:var(--gris);}
+    .imagen-web{
+      width:100%;
+      border-radius:24px;
+      box-shadow:var(--sombra);
+      border:1px solid rgba(15,118,110,.12);
+    }
 
-        .card{
-            box-shadow:0px 2px 8px rgba(0,0,0,0.2);
-        }
+    .tarjeta{
+      height:100%;
+      border:0;
+      border-radius:24px;
+      background:#fff;
+      box-shadow:0 16px 38px rgba(7,26,44,.10);
+      transition:.25s ease;
+    }
+    .tarjeta:hover{
+      transform:translateY(-8px);
+      box-shadow:0 26px 60px rgba(7,26,44,.16);
+    }
+    .tarjeta.destacada{border-top:6px solid var(--verde);}
+    .icono{
+      width:82px;
+      height:82px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      margin:0 auto 1rem;
+      background:var(--verde);
+      color:#fff;
+      font-weight:900;
+      box-shadow:0 14px 26px rgba(15,118,110,.28);
+    }
+    .btn-verde{
+      background:var(--verde);
+      border-color:var(--verde);
+      color:white;
+      font-weight:750;
+      border-radius:12px;
+    }
+    .btn-verde:hover{
+      background:var(--azul);
+      border-color:var(--azul);
+      color:white;
+    }
+    .btn-outline-verde{
+      border:1.5px solid var(--verde);
+      color:var(--verde);
+      font-weight:750;
+      border-radius:12px;
+    }
+    .btn-outline-verde:hover{
+      background:var(--verde);
+      color:white;
+    }
 
-        footer{
-            background:#212529;
-            color:white;
-            text-align:center;
-            padding:20px;
-            margin-top:20px;
-        }
+    .panel-codigo{
+      background:#eef8f7;
+      border:1px solid rgba(15,118,110,.13);
+      border-radius:28px;
+      padding:2rem;
+      box-shadow:var(--sombra);
+    }
+    .ventana{
+      overflow:hidden;
+      border-radius:18px;
+      background:#071225;
+      color:#d7fff7;
+      box-shadow:0 20px 42px rgba(7,18,37,.24);
+    }
+    .barra-ventana{
+      height:44px;
+      display:flex;
+      align-items:center;
+      gap:.45rem;
+      padding:0 1rem;
+      background:linear-gradient(90deg,#0f766e,#0ea5e9);
+    }
+    .punto{width:12px;height:12px;border-radius:50%;background:#ff5f57;}
+    .punto:nth-child(2){background:#ffbd2e;}
+    .punto:nth-child(3){background:#28c840;}
+    .codigo{
+      font-family:"Consolas","Courier New",monospace;
+      font-size:.98rem;
+      padding:1.4rem;
+      margin:0;
+      white-space:pre-wrap;
+    }
 
-        aside{
-            background:#e9ecef;
-            padding:15px;
-            border-radius:10px;
-            margin-top:20px;
-        }
+    .bloque-util{
+      height:100%;
+      padding:1.35rem;
+      border-radius:22px;
+      background:#fff;
+      box-shadow:0 12px 30px rgba(7,26,44,.08);
+      border:1px solid rgba(15,118,110,.08);
+    }
+    .numero{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background:#ccfbf1;
+      color:var(--verde);
+      display:grid;
+      place-items:center;
+      font-weight:950;
+      margin-bottom:.9rem;
+    }
+    .franja{
+      background:linear-gradient(135deg,#0f766e,#0b3550);
+      color:#fff;
+      border-radius:28px;
+      padding:2rem;
+      box-shadow:0 20px 48px rgba(15,118,110,.25);
+    }
+    .mini-guia{
+      border-left:7px solid var(--verde);
+      border-radius:24px;
+      padding:1.4rem;
+      background:white;
+      box-shadow:0 16px 38px rgba(7,26,44,.10);
+    }
+    .mini-guia li{
+      padding:.7rem 0;
+      border-bottom:1px solid #e6eef2;
+    }
+    .mini-guia li:last-child{border-bottom:0;}
 
-        @media (max-width:768px){
-            header{
-                padding:20px;
-            }
+    .video-box{
+      overflow:hidden;
+      border-radius:24px;
+      background:#111827;
+      box-shadow:var(--sombra);
+    }
+    .video-box iframe{
+      display:block;
+      width:100%;
+      height:390px;
+      border:0;
+    }
+    .aside-card{
+      height:100%;
+      border-left:7px solid var(--verde);
+      border-radius:24px;
+      background:#fff;
+      box-shadow:0 16px 38px rgba(7,26,44,.10);
+      padding:1.6rem;
+    }
+    .aside-card p{margin-bottom:.8rem;}
 
-            h1{
-                font-size:24px;
-            }
-        }
-    </style>
+    .formulario{
+      background:#fff;
+      border-radius:26px;
+      box-shadow:var(--sombra);
+      padding:1.6rem;
+    }
+    .form-control{
+      border-radius:14px;
+      padding:.88rem;
+      border:1px solid #cbd5e1;
+    }
+    .form-control:focus{
+      border-color:var(--verde);
+      box-shadow:0 0 0 .25rem rgba(15,118,110,.14);
+    }
+    .ilustracion-contacto{
+      background:linear-gradient(135deg,#e6fffb,#eff6ff);
+      border:1px solid rgba(15,118,110,.12);
+      border-radius:26px;
+      padding:2rem;
+      min-height:230px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .tarjeta-mini{
+      width:min(360px,100%);
+      border-radius:18px;
+      background:#fff;
+      overflow:hidden;
+      box-shadow:0 20px 38px rgba(7,26,44,.18);
+    }
+    .tarjeta-mini .top{
+      height:44px;
+      background:linear-gradient(90deg,#0f766e,#38bdf8);
+      display:flex;
+      align-items:center;
+      gap:.4rem;
+      padding:0 1rem;
+    }
+    .tarjeta-mini .body-mini{padding:1.3rem;}
+    .linea{height:9px;border-radius:8px;background:#cbd5e1;margin:.75rem 0;width:75%;}
+    .linea.corta{width:55%;background:#99f6e4;}
+    .tag{
+      display:inline-block;
+      margin:.4rem .35rem 0 0;
+      padding:.35rem .75rem;
+      border-radius:8px;
+      color:#fff;
+      font-size:.78rem;
+      font-weight:800;
+      background:var(--verde);
+    }
+    .tag:nth-child(2){background:#0ea5e9;}
+    .tag:nth-child(3){background:#f97316;}
+
+    footer{
+      background:var(--azul-profundo);
+      color:rgba(255,255,255,.88);
+      padding:2rem 0;
+    }
+    footer a{color:#99f6e4;text-decoration:none;font-weight:800;}
+
+    @media (max-width:768px){
+      .hero{min-height:auto;padding:7rem 0 4.2rem;}
+      .section-pad{padding:3.7rem 0;}
+      .titulo-seccion{text-align:center;}
+      .titulo-seccion::after{margin-left:auto;margin-right:auto;}
+      .video-box iframe{height:245px;}
+      .franja{text-align:center;}
+    }
+  </style>
 </head>
-
 <body>
-
-<header>
-    <h1>Desarrollo de Aplicaciones Web</h1>
-    <p>Proyecto Integrador - Semana 4</p>
-</header>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">DAW</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-            <span class="navbar-toggler-icon"></span>
+  <header id="inicio">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#inicio">DAW UEA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
+          <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="collapse navbar-collapse" id="menu">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#quienes">Quiénes Somos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-            </ul>
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="#quienes-somos">Quiénes Somos</a></li>
+            <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+            <li class="nav-item"><a class="nav-link" href="#recursos">Ideas útiles</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+          </ul>
         </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="container">
+        <span class="etiqueta">Proyecto Integrador U1</span>
+        <h1>Desarrollo de Aplicaciones Web</h1>
+        <p>Sitio académico elaborado con HTML5, CSS3, Bootstrap y diseño responsivo para presentar contenidos de manera clara, visual y adaptable a computadora, tablet y celular.</p>
+        <div class="mt-4 d-flex flex-wrap justify-content-center gap-3">
+          <a class="btn btn-light btn-hero" href="#contacto">Contáctanos</a>
+          <a class="btn btn-outline-light btn-hero" href="#servicios">Ver servicios</a>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="section-pad" id="quienes-somos">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <article class="col-lg-6">
+            <h2 class="titulo-seccion">Quiénes Somos</h2>
+            <p>Este sitio web académico ha sido desarrollado como una propuesta práctica de la asignatura Desarrollo de Aplicaciones Web, con el propósito de aplicar conocimientos de HTML5, CSS3 y Bootstrap en una página funcional, ordenada y adaptable. La estructura integra encabezado, menú de navegación, contenido principal, secciones informativas, recursos multimedia, formulario de contacto y pie de página, lo que permite presentar la información de manera comprensible y visualmente agradable.</p>
+            <p>La página está pensada como un espacio demostrativo para organizar contenidos digitales con criterio técnico y diseño claro. Por ello, se emplean etiquetas semánticas que facilitan la lectura del navegador, componentes responsivos para mejorar la visualización en diferentes pantallas y elementos gráficos que ayudan al usuario a identificar rápidamente cada parte del sitio. Esta combinación permite fortalecer competencias básicas para construir páginas web modernas, accesibles y coherentes con las necesidades actuales de comunicación digital.</p>
+            <a class="btn btn-verde" href="#recursos">Leer más</a>
+          </article>
+          <article class="col-lg-6">
+            <img class="img-fluid imagen-web" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Computadora con código de programación para desarrollo web">
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-verde" id="servicios">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="titulo-centro">Servicios o Productos</h2>
+          <p class="col-lg-8 mx-auto">El sitio presenta los componentes principales que se utilizan para crear una página web clara, atractiva y adaptable. Cada tarjeta resume una parte importante del proceso de construcción digital.</p>
+        </div>
+        <div class="row g-4">
+          <article class="col-md-4">
+            <div class="card tarjeta p-3 text-center">
+              <div class="card-body">
+                <div class="icono">HTML5</div>
+                <h3 class="h5 fw-bold">Estructura semántica</h3>
+                <p>Organización del contenido mediante etiquetas como header, nav, main, section, article, aside y footer para que la página tenga orden, sentido y lectura clara.</p>
+                <a class="btn btn-outline-verde" href="#recursos">Ver aplicación</a>
+              </div>
+            </div>
+          </article>
+          <article class="col-md-4">
+            <div class="card tarjeta destacada p-3 text-center">
+              <div class="card-body">
+                <div class="icono">CSS3</div>
+                <h3 class="h5 fw-bold">Diseño visual</h3>
+                <p>Aplicación de colores, tipografías, márgenes, sombras, bordes y efectos sencillos para mejorar la apariencia sin saturar la pantalla ni dificultar la lectura.</p>
+                <a class="btn btn-verde" href="#contacto">Solicitar ayuda</a>
+              </div>
+            </div>
+          </article>
+          <article class="col-md-4">
+            <div class="card tarjeta p-3 text-center">
+              <div class="card-body">
+                <div class="icono">BS</div>
+                <h3 class="h5 fw-bold">Bootstrap responsivo</h3>
+                <p>Uso de contenedores, filas, columnas, botones, tarjetas, formularios e imágenes adaptables para que el sitio funcione bien en distintos tamaños de pantalla.</p>
+                <a class="btn btn-outline-verde" href="#multimedia">Ver video</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="recursos">
+      <div class="container">
+        <div class="row align-items-center g-5 mb-5">
+          <article class="col-lg-6">
+            <h2 class="titulo-seccion">Ideas útiles para mejorar una página web</h2>
+            <p>Una página web no se mejora llenándola de elementos al azar, sino tomando decisiones pequeñas que hacen que el usuario entienda rápido dónde está, qué puede hacer y cómo puede moverse dentro del sitio. Estas ideas sirven para aplicar diseño web con más intención y menos improvisación.</p>
+          </article>
+          <aside class="col-lg-6">
+            <div class="mini-guia">
+              <h3 class="h4 fw-bold mb-3">Ruta sencilla para construir mejor</h3>
+              <ul class="m-0 ps-3">
+                <li>Definir primero las secciones importantes: inicio, presentación, servicios y contacto.</li>
+                <li>Usar un menú corto con nombres claros para que la navegación sea directa.</li>
+                <li>Colocar imágenes que expliquen el tema, no imágenes decorativas sin relación.</li>
+                <li>Probar la página reduciendo la ventana del navegador para revisar el diseño responsivo.</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <div class="row g-4">
+          <article class="col-md-6 col-lg-3">
+            <div class="bloque-util">
+              <div class="numero">01</div>
+              <h3 class="h5 fw-bold">Jerarquía visual</h3>
+              <p>El título principal debe verse primero, luego el texto de apoyo y después los botones. Así el usuario no se pierde entre demasiada información.</p>
+            </div>
+          </article>
+          <article class="col-md-6 col-lg-3">
+            <div class="bloque-util">
+              <div class="numero">02</div>
+              <h3 class="h5 fw-bold">Tarjetas con sentido</h3>
+              <p>Cada tarjeta debe explicar una sola idea. Un título, una breve descripción y un botón son suficientes para mantener orden y claridad.</p>
+            </div>
+          </article>
+          <article class="col-md-6 col-lg-3">
+            <div class="bloque-util">
+              <div class="numero">03</div>
+              <h3 class="h5 fw-bold">Formulario entendible</h3>
+              <p>Los campos deben tener etiquetas claras, espacios adecuados y un botón visible. Esto mejora la confianza y facilita la interacción.</p>
+            </div>
+          </article>
+          <article class="col-md-6 col-lg-3">
+            <div class="bloque-util">
+              <div class="numero">04</div>
+              <h3 class="h5 fw-bold">Pantallas pequeñas</h3>
+              <p>En celular, los textos deben seguir siendo legibles, las imágenes no deben salirse del ancho y los botones deben poder tocarse con facilidad.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="row align-items-center g-5 mt-4">
+          <article class="col-lg-6">
+            <div class="panel-codigo">
+              <div class="ventana">
+                <div class="barra-ventana"><span class="punto"></span><span class="punto"></span><span class="punto"></span></div>
+                <pre class="codigo">&lt;main class="container"&gt;
+  &lt;section class="row align-items-center"&gt;
+    &lt;article class="col-lg-6"&gt;
+      Contenido claro y ordenado
+    &lt;/article&gt;
+    &lt;aside class="col-lg-6"&gt;
+      Información de apoyo
+    &lt;/aside&gt;
+  &lt;/section&gt;
+&lt;/main&gt;</pre>
+              </div>
+            </div>
+          </article>
+          <article class="col-lg-6">
+            <h3 class="fw-bold text-primary-emphasis">Cómo se aplica en este sitio</h3>
+            <p>La página usa una estructura por bloques para que el contenido no aparezca acumulado. El encabezado presenta la idea central, las tarjetas resumen los componentes del proyecto, la sección multimedia refuerza el aprendizaje y el formulario simula una interacción básica con el usuario. Con Bootstrap, las columnas se reorganizan automáticamente en pantallas pequeñas, mientras que el CSS personalizado aporta identidad visual mediante colores, sombras, bordes y espaciados.</p>
+            <p>También se incorporan botones con acciones claras, imágenes adaptables mediante la clase <strong>img-fluid</strong> y una media query que ajusta altura del video, espaciados y alineación cuando la pantalla es más pequeña.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-suave" id="multimedia">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <article class="col-lg-7">
+            <h2 class="titulo-seccion">Recurso multimedia</h2>
+            <p>El video seleccionado complementa el tema porque muestra el uso de Bootstrap en la construcción de una barra de navegación responsiva, un elemento necesario para que el sitio pueda adaptarse a diferentes pantallas y conservar una navegación clara.</p>
+            <div class="video-box mb-3">
+              <iframe src="https://www.youtube.com/embed/PIAO6fVyESk?rel=0" title="Menú de navegación responsivo con Bootstrap" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <a class="btn btn-outline-verde" href="https://youtu.be/PIAO6fVyESk" target="_blank" rel="noopener">Abrir video en YouTube</a>
+          </article>
+          <aside class="col-lg-5">
+            <div class="aside-card">
+              <h3 class="h4 fw-bold mb-3">Detalles que fortalecen el sitio</h3>
+              <p><strong>Menú visible:</strong> permite saltar entre secciones sin buscar demasiado.</p>
+              <p><strong>Botones coherentes:</strong> guían al usuario hacia servicios, contenido útil o contacto.</p>
+              <p><strong>Imágenes adaptables:</strong> acompañan el tema de desarrollo web y se ajustan al tamaño de pantalla.</p>
+              <p><strong>Contenido organizado:</strong> cada bloque tiene una función específica para facilitar la lectura.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="contacto">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <article class="col-lg-5">
+            <h2 class="titulo-seccion">Contacto</h2>
+            <p>La sección de contacto simula una comunicación básica con el usuario y muestra cómo puede organizarse un formulario dentro de una página web. Los campos se presentan con etiquetas claras y controles estilizados para mantener una experiencia sencilla y ordenada.</p>
+            <div class="ilustracion-contacto mt-4">
+              <div class="tarjeta-mini">
+                <div class="top"><span class="punto"></span><span class="punto"></span><span class="punto"></span></div>
+                <div class="body-mini">
+                  <div class="linea corta"></div>
+                  <div class="linea"></div>
+                  <div class="linea"></div>
+                  <span class="tag">CSS3</span><span class="tag">HTML5</span><span class="tag">BOOT</span>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="col-lg-7">
+            <form class="formulario">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="nombre" class="form-label fw-bold">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" placeholder="Escriba su nombre">
+                </div>
+                <div class="col-md-6">
+                  <label for="correo" class="form-label fw-bold">Correo electrónico</label>
+                  <input type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com">
+                </div>
+                <div class="col-12">
+                  <label for="asunto" class="form-label fw-bold">Asunto</label>
+                  <input type="text" class="form-control" id="asunto" placeholder="Consulta sobre el proyecto web">
+                </div>
+                <div class="col-12">
+                  <label for="mensaje" class="form-label fw-bold">Mensaje</label>
+                  <textarea class="form-control" id="mensaje" rows="5" placeholder="Escriba su mensaje"></textarea>
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                  <button type="submit" class="btn btn-verde">Enviar mensaje</button>
+                  <a class="btn btn-outline-verde" href="mailto:correo@ejemplo.com">Correo</a>
+                  <a class="btn btn-outline-verde" href="https://github.com/jany08/desarrollo-web-semana2" target="_blank" rel="noopener">GitHub</a>
+                </div>
+              </div>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-5">
+      <div class="container">
+        <div class="franja d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+          <div>
+            <h2 class="h3 fw-bold mb-2">Sitio web con diseño responsivo</h2>
+            <p class="mb-0">La página integra estructura HTML5, Bootstrap, CSS3, formulario, tarjetas, video, sección complementaria e imágenes adaptables.</p>
+          </div>
+          <a class="btn btn-light btn-hero" href="#inicio">Volver al inicio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2 text-center text-md-start">
+      <p class="mb-0">Desarrollo de Aplicaciones Web - Universidad Estatal Amazónica</p>
+      <p class="mb-0">Repositorio: <a href="https://github.com/jany08/desarrollo-web-semana2" target="_blank" rel="noopener">GitHub</a></p>
     </div>
-</nav>
+  </footer>
 
-<main class="container">
-
-    <section id="inicio" class="text-center p-4">
-        <h2>Inicio</h2>
-        <p>
-            Bienvenido a este sitio web académico dedicado al aprendizaje
-            del desarrollo de aplicaciones web utilizando HTML5, CSS3,
-            Bootstrap y diseño responsivo.
-        </p>
-
-        <a href="#contacto" class="btn btn-primary">
-            Contáctanos
-        </a>
-    </section>
-
-    <section id="quienes" class="row align-items-center m-3">
-
-        <div class="col-md-6">
-            <h2>Quiénes Somos</h2>
-
-            <p>
-                Este proyecto académico ha sido desarrollado como parte de la
-                asignatura Desarrollo de Aplicaciones Web. Su objetivo es
-                aplicar conocimientos de HTML5, CSS3 y Bootstrap para crear
-                sitios web modernos, accesibles y responsivos. La plataforma
-                permite demostrar el uso de estructuras semánticas, diseño
-                adaptable y recursos multimedia para mejorar la experiencia
-                del usuario y fortalecer las competencias tecnológicas.
-            </p>
-        </div>
-
-        <div class="col-md-6">
-            <img
-                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
-                class="img-fluid rounded"
-                alt="Desarrollo Web">
-        </div>
-
-    </section>
-
-    <section id="servicios" class="m-3">
-
-        <h2 class="text-center">Servicios</h2>
-
-        <div class="row">
-
-            <div class="col-md-4">
-                <div class="card p-3 m-2">
-                    <h5>HTML5</h5>
-                    <p>Creación de estructuras web modernas.</p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card p-3 m-2">
-                    <h5>CSS3</h5>
-                    <p>Diseño visual y personalización de sitios web.</p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card p-3 m-2">
-                    <h5>Bootstrap</h5>
-                    <p>Diseño responsivo mediante componentes modernos.</p>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section id="contacto" class="m-3">
-
-        <h2>Contacto</h2>
-
-        <form>
-
-            <div class="mb-3">
-                <label>Nombre</label>
-                <input type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label>Correo Electrónico</label>
-                <input type="email" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label>Asunto</label>
-                <input type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label>Mensaje</label>
-                <textarea class="form-control" rows="4"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-success">
-                Enviar
-            </button>
-
-        </form>
-
-        <div class="mt-3">
-            <a href="https://www.facebook.com" class="btn btn-primary">Facebook</a>
-            <a href="https://www.instagram.com" class="btn btn-danger">Instagram</a>
-        </div>
-
-    </section>
-
-</main>
-
-<aside class="container">
-    <h3>Información Complementaria</h3>
-    <p>Horario de atención: Lunes a Viernes de 08:00 a 18:00.</p>
-    <p>Acceso gratuito a material introductorio sobre HTML5.</p>
-</aside>
-
-<footer>
-    <p>
-        Desarrollado por Janina Alexandra Jumbo Rogel |
-        Asignatura: Desarrollo de Aplicaciones Web |
-        2026
-    </p>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-```
