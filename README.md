@@ -1,40 +1,29 @@
-# Desarrollo de Aplicaciones Web - Semana 4
+# Desarrollo de Aplicaciones Web - Semana 5
 
-Este repositorio contiene el proyecto web desarrollado para la asignatura Desarrollo de Aplicaciones Web de la Universidad Estatal Amazónica. El sitio presenta una página académica elaborada con HTML5, CSS3, Bootstrap y diseño responsivo, con el propósito de organizar contenidos web mediante una estructura clara, visualmente agradable y adaptable a diferentes dispositivos.
+## Descripción
 
-## Descripción del proyecto
+Este proyecto corresponde a la actualización del sitio web académico de Desarrollo de Aplicaciones Web. Se conservó el diseño trabajado en la versión anterior y se incorporó una sección dinámica llamada **Registro de recursos web**.
 
-La página web integra secciones principales como Inicio, Quiénes Somos, Servicios y Contacto. Cada sección permite mostrar información organizada sobre el desarrollo de sitios web, el uso de etiquetas semánticas, la aplicación de estilos personalizados, la incorporación de componentes Bootstrap y la importancia de una navegación sencilla para el usuario.
+## Funcionalidad incorporada
 
-El proyecto también incluye recursos visuales, botones, tarjetas informativas, formulario de contacto y contenido multimedia, con el fin de fortalecer la presentación del sitio y demostrar el uso práctico de herramientas básicas para la creación de páginas web modernas.
+La sección permite registrar recursos relacionados con HTML5, CSS3, Bootstrap, JavaScript y diseño responsivo. La información se muestra en pantalla sin recargar el navegador.
 
-## Tecnologías utilizadas
+## Requisitos aplicados
 
-- HTML5
-- CSS3
-- Bootstrap
-- Diseño responsivo
-- GitHub
-- GitHub Pages
+- Archivo principal `index.html`.
+- Código CSS separado en `style.css`.
+- Código JavaScript separado en `script.js`.
+- Uso de `addEventListener()` para eventos.
+- Uso de `preventDefault()` para evitar recarga del formulario.
+- Validación de campos vacíos.
+- Uso de `createElement()` para crear elementos HTML desde JavaScript.
+- Uso de `appendChild()` para agregar registros a la página.
+- Botón para eliminar registros mediante evento `click`.
+- Contador dinámico de recursos agregados.
+- Aplicación de Bootstrap y diseño responsivo.
 
-## Estructura del sitio
+## Enlaces de entrega
 
-- Inicio: presentación principal del proyecto.
-- Quiénes Somos: explicación del propósito académico del sitio web.
-- Servicios: tarjetas informativas sobre HTML5, CSS3 y Bootstrap.
-- Contacto: formulario básico y enlaces de contacto.
-- Recurso multimedia: video relacionado con el desarrollo web.
-
-## Enlace del sitio publicado
+Repositorio: https://github.com/jany08/desarrollo-web-semana2
 
 GitHub Pages: https://jany08.github.io/desarrollo-web-semana2/
-
-## Autora
-
-Janina Alexandra Jumbo Rogel
-
-## Institución
-
-Universidad Estatal Amazónica  
-Carrera de Tecnología de la Información  
-Asignatura: Desarrollo de Aplicaciones Web
