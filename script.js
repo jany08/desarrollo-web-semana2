@@ -1,9 +1,116 @@
+const datosRutas = [
+  {
+    icono: 'HTML',
+    titulo: 'Estructura semántica',
+    descripcion: 'Organiza encabezado, navegación, secciones, artículos, formularios y pie de página para que el sitio tenga una base clara.',
+    resultado: 'Resultado: página ordenada'
+  },
+  {
+    icono: 'CSS',
+    titulo: 'Diseño visual',
+    descripcion: 'Aplica colores, tipografías, márgenes, bordes, sombras y efectos básicos para mejorar la lectura y la presentación.',
+    resultado: 'Resultado: interfaz atractiva'
+  },
+  {
+    icono: 'BS',
+    titulo: 'Diseño responsivo',
+    descripcion: 'Utiliza Bootstrap para distribuir contenidos en contenedores, filas, columnas, botones, formularios y tarjetas adaptables.',
+    resultado: 'Resultado: sitio adaptable'
+  },
+  {
+    icono: 'JS',
+    titulo: 'Interacción y validación',
+    descripcion: 'Valida formularios, controla eventos, muestra mensajes dinámicos y registra información sin recargar la página.',
+    resultado: 'Resultado: página interactiva'
+  }
+];
+
+const bloquesPlantilla = [
+  {
+    etiqueta: 'base.html',
+    titulo: 'Bloque principal',
+    uso: 'Integra la estructura general del sitio y permite ubicar de forma ordenada las secciones que se repiten.',
+    archivo: 'Parte reutilizable: header'
+  },
+  {
+    etiqueta: 'navbar.html',
+    titulo: 'Navegación común',
+    uso: 'Mantiene el menú visible para acceder a inicio, rutas, plantillas, video, registro y contacto sin duplicar enlaces.',
+    archivo: 'Parte reutilizable: nav'
+  },
+  {
+    etiqueta: 'content.html',
+    titulo: 'Contenido renderizado',
+    uso: 'Muestra datos generados desde JavaScript mediante tarjetas, mensajes y registros creados por el usuario.',
+    archivo: 'Parte reutilizable: main'
+  },
+  {
+    etiqueta: 'footer.html',
+    titulo: 'Cierre del sitio',
+    uso: 'Conserva la información general del proyecto y mantiene una presentación consistente al final de la página.',
+    archivo: 'Parte reutilizable: footer'
+  }
+];
+
+const contenedorRutas = document.getElementById('contenedorRutas');
+const estadoRutas = document.getElementById('estadoRutas');
+const templateRuta = document.getElementById('templateRuta');
+
+const contenedorPlantillas = document.getElementById('contenedorPlantillas');
+const estadoPlantillas = document.getElementById('estadoPlantillas');
+const templateComponente = document.getElementById('templateComponente');
+
+function renderizarRutas() {
+  contenedorRutas.innerHTML = '';
+
+  if (datosRutas.length === 0) {
+    estadoRutas.className = 'alert alert-danger text-center mx-auto status-alert';
+    estadoRutas.textContent = 'No existen rutas de aprendizaje disponibles por el momento.';
+    return;
+  }
+
+  estadoRutas.className = 'alert alert-success text-center mx-auto status-alert';
+  estadoRutas.textContent = `Se muestran ${datosRutas.length} rutas generadas dinámicamente desde JavaScript.`;
+
+  datosRutas.forEach(ruta => {
+    const fragmento = templateRuta.content.cloneNode(true);
+    fragmento.querySelector('.card-icon').textContent = ruta.icono;
+    fragmento.querySelector('h3').textContent = ruta.titulo;
+    fragmento.querySelector('.descripcion-ruta').textContent = ruta.descripcion;
+    fragmento.querySelector('.resultado-ruta').textContent = ruta.resultado;
+    contenedorRutas.appendChild(fragmento);
+  });
+}
+
+function renderizarPlantillas() {
+  contenedorPlantillas.innerHTML = '';
+
+  if (bloquesPlantilla.length === 0) {
+    estadoPlantillas.className = 'alert alert-danger status-alert';
+    estadoPlantillas.textContent = 'No hay bloques reutilizables definidos.';
+    return;
+  }
+
+  estadoPlantillas.className = 'alert alert-success status-alert';
+  estadoPlantillas.textContent = `Estructura del sitio organizada en ${bloquesPlantilla.length} bloques reutilizables generados desde JavaScript.`;
+
+  bloquesPlantilla.forEach(bloque => {
+    const fragmento = templateComponente.content.cloneNode(true);
+    fragmento.querySelector('.template-label').textContent = bloque.etiqueta;
+    fragmento.querySelector('h3').textContent = bloque.titulo;
+    fragmento.querySelector('.uso-componente').textContent = bloque.uso;
+    fragmento.querySelector('.archivo-sugerido').textContent = bloque.archivo;
+    contenedorPlantillas.appendChild(fragmento);
+  });
+}
+
 const formulario = document.getElementById('formAprendizaje');
 const mensajeGeneral = document.getElementById('mensajeGeneral');
 const listaRegistros = document.getElementById('listaRegistros');
 const sinRegistros = document.getElementById('sinRegistros');
 const contadorRegistros = document.getElementById('contadorRegistros');
 const btnLimpiar = document.getElementById('btnLimpiar');
+const templateSolicitud = document.getElementById('templateSolicitud');
 
 const campos = {
   nombre: document.getElementById('nombre'),
@@ -15,7 +122,7 @@ const campos = {
   objetivo: document.getElementById('objetivo')
 };
 
-let registros = JSON.parse(localStorage.getItem('registrosAulaWeb')) || [];
+let registros = JSON.parse(localStorage.getItem('solicitudesDawUea')) || [];
 
 const reglas = {
   nombre: valor => valor.trim().length >= 4,
@@ -57,34 +164,31 @@ function ocultarMensaje() {
 }
 
 function guardarRegistros() {
-  localStorage.setItem('registrosAulaWeb', JSON.stringify(registros));
+  localStorage.setItem('solicitudesDawUea', JSON.stringify(registros));
 }
 
 function renderizarRegistros() {
   listaRegistros.innerHTML = '';
   contadorRegistros.textContent = registros.length;
-  sinRegistros.style.display = registros.length === 0 ? 'block' : 'none';
+
+  if (registros.length === 0) {
+    sinRegistros.style.display = 'block';
+    return;
+  }
+
+  sinRegistros.style.display = 'none';
 
   registros.forEach(registro => {
-    const columna = document.createElement('article');
-    columna.className = 'col-md-6 col-xl-4';
-
-    columna.innerHTML = `
-      <div class="record-card">
-        <h3>${registro.nombre}</h3>
-        <p><strong>Correo:</strong> ${registro.correo}</p>
-        <div class="record-meta">
-          <span>${registro.ruta}</span>
-          <span>${registro.nivel}</span>
-          <span>${registro.horario}</span>
-          <span>${registro.modalidad}</span>
-        </div>
-        <p>${registro.objetivo}</p>
-        <button class="btn btn-outline-danger btn-sm" data-id="${registro.id}">Eliminar</button>
-      </div>
-    `;
-
-    listaRegistros.appendChild(columna);
+    const fragmento = templateSolicitud.content.cloneNode(true);
+    fragmento.querySelector('.registro-nombre').textContent = registro.nombre;
+    fragmento.querySelector('.registro-correo').textContent = registro.correo;
+    fragmento.querySelector('.registro-ruta').textContent = registro.ruta;
+    fragmento.querySelector('.registro-nivel').textContent = registro.nivel;
+    fragmento.querySelector('.registro-horario').textContent = registro.horario;
+    fragmento.querySelector('.registro-modalidad').textContent = registro.modalidad;
+    fragmento.querySelector('.registro-objetivo').textContent = registro.objetivo;
+    fragmento.querySelector('button').dataset.id = registro.id;
+    listaRegistros.appendChild(fragmento);
   });
 }
 
@@ -136,9 +240,6 @@ btnLimpiar.addEventListener('click', () => {
   ocultarMensaje();
   Object.values(campos).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
 });
-
-renderizarRegistros();
-
 
 const formContacto = document.getElementById('formContacto');
 const mensajeContacto = document.getElementById('mensajeContacto');
@@ -212,3 +313,7 @@ if (formContacto) {
     Object.values(camposContacto).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
   });
 }
+
+renderizarRutas();
+renderizarPlantillas();
+renderizarRegistros();

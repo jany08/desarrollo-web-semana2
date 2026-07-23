@@ -1,6 +1,6 @@
 # DAW UEA - Desarrollo de Aplicaciones Web
 
-Sitio web educativo orientado al aprendizaje de Desarrollo de Aplicaciones Web mediante rutas prácticas de HTML5, CSS3, Bootstrap y JavaScript.
+Sitio web educativo orientado al aprendizaje de Desarrollo de Aplicaciones Web mediante rutas prácticas de HTML5, CSS3, Bootstrap y JavaScript. El proyecto se trabaja de forma progresiva y mantiene una estructura preparada para futuras integraciones con Flask, Python y base de datos.
 
 ## Historial de avances
 
@@ -16,24 +16,29 @@ Se añadieron funciones con JavaScript para fortalecer la interacción del usuar
 ### Semana 6: validaciones dinámicas y manejo de formularios
 Se actualizó el formulario principal para validar datos en tiempo real mediante JavaScript. Se aplicaron eventos `input`, `blur` y `submit`, uso de `preventDefault()`, mensajes de error y éxito, clases visuales de Bootstrap, registro dinámico de solicitudes, conteo y eliminación de registros sin recargar la página. Además, se conserva la sección de contacto con formulario, correo, redes sociales, ubicación y enlaces del proyecto.
 
-## Validaciones aplicadas
+### Semana 7: uso de plantillas para renderizar contenido dinámico
+Se reorganizó la página simulando una estructura basada en plantillas reutilizables. Se agregaron comentarios en el HTML para identificar bloques que podrían convertirse posteriormente en `base.html`, `navbar.html`, `content.html` y `footer.html`. Además, se incorporó renderizado dinámico mediante arreglos y objetos de JavaScript para mostrar rutas de aprendizaje, bloques reutilizables y solicitudes registradas a partir de plantillas HTML.
 
-- Nombre completo con longitud mínima.
-- Correo electrónico con formato válido.
-- Selección obligatoria de ruta de aprendizaje.
-- Selección obligatoria de nivel, horario y modalidad.
-- Objetivo de aprendizaje con extensión mínima.
-- Uso de eventos `input`, `blur` y `submit`.
-- Uso de `preventDefault()` para evitar la recarga de la página.
+## Funcionalidades aplicadas
+
+- Comentarios en el HTML para reconocer secciones reutilizables.
+- Uso de etiquetas `<template>` para renderizar tarjetas dinámicas.
+- Arreglos y objetos en JavaScript para representar datos del proyecto.
+- Renderizado dinámico de rutas de aprendizaje y bloques de plantilla.
+- Condiciones para mostrar mensajes cuando existen o no existen datos.
+- Conservación de validaciones dinámicas del formulario de inscripción.
+- Uso de eventos `input`, `blur`, `submit` y `click`.
+- Uso de `preventDefault()` para evitar recargas de página.
 - Aplicación de clases Bootstrap `is-valid`, `is-invalid`, `alert-success` y `alert-danger`.
 - Registro, conteo y eliminación dinámica de solicitudes.
+- Sección de contacto con formulario, correo, redes sociales y ubicación.
 - Recurso multimedia integrado mediante `iframe` de YouTube.
 
 ## Archivos del proyecto
 
-- `index.html`: estructura principal del sitio.
-- `style.css`: estilos visuales y diseño responsivo.
-- `script.js`: validaciones dinámicas, registro, conteo y eliminación de solicitudes.
+- `index.html`: estructura principal del sitio y plantillas HTML reutilizables.
+- `style.css`: estilos visuales, tarjetas, formularios y diseño responsivo.
+- `script.js`: arreglos, objetos, renderizado dinámico, validaciones y eventos.
 - `README.md`: descripción del proyecto e historial de avances.
 
 ## Publicación
