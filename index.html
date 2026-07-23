@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DAW UEA | Desarrollo de Aplicaciones Web</title>
-  <meta name="description" content="Sitio educativo de Desarrollo de Aplicaciones Web con plantillas, contenido dinámico y validaciones de formularios." />
+  <meta name="description" content="Sitio educativo de Desarrollo de Aplicaciones Web con Bootstrap, JavaScript, contenido dinámico, formularios validados, modal y spinner." />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,10 +12,10 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- base.html: encabezado común reutilizable para todas las páginas del proyecto -->
+  <!-- base.html: encabezado común reutilizable para todas las vistas del proyecto -->
   <header id="inicio" class="hero-section">
-    <!-- base.html: bloque de navegación principal -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
+    <!-- navbar.html: menú principal implementado con Bootstrap navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm" aria-label="Menú principal">
       <div class="container">
         <a class="navbar-brand fw-bold" href="#inicio">DAW UEA</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú de navegación">
@@ -26,7 +26,8 @@
             <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="#quienes-somos">Quiénes somos</a></li>
             <li class="nav-item"><a class="nav-link" href="#rutas">Rutas</a></li>
-            <li class="nav-item"><a class="nav-link" href="#plantillas">Plantillas</a></li>
+            <li class="nav-item"><a class="nav-link" href="#interfaz">Bootstrap</a></li>
+            <li class="nav-item"><a class="nav-link" href="#plantillas">Estructura</a></li>
             <li class="nav-item"><a class="nav-link" href="#video">Video</a></li>
             <li class="nav-item"><a class="nav-link" href="#registro">Registro</a></li>
             <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
@@ -35,16 +36,16 @@
       </div>
     </nav>
 
-    <!-- index.html: bloque de contenido principal que luego podría renderizarse dentro de content en Flask -->
+    <!-- content.html: contenido principal que podría renderizarse dentro de una plantilla base -->
     <section class="hero-content container">
-      <span class="hero-badge">Formación práctica en desarrollo web</span>
+      <span class="hero-badge">Interfaz mejorada con Bootstrap y JavaScript</span>
       <h1>Aprende Desarrollo de Aplicaciones Web</h1>
       <p>
-        Un espacio educativo para comprender, practicar y organizar páginas modernas mediante HTML5, CSS3, Bootstrap, JavaScript y contenido dinámico renderizado desde datos reutilizables.
+        Un espacio educativo para comprender, practicar y organizar páginas modernas mediante HTML5, CSS3, Bootstrap, JavaScript, componentes visuales y contenido dinámico renderizado desde datos reutilizables.
       </p>
-      <div class="hero-actions">
+      <div class="hero-actions d-flex flex-wrap justify-content-center gap-3">
         <a href="#registro" class="btn btn-light btn-lg">Inscribirme</a>
-        <a href="#rutas" class="btn btn-outline-light btn-lg">Ver rutas</a>
+        <a href="#interfaz" class="btn btn-outline-light btn-lg">Ver mejoras</a>
       </div>
     </section>
   </header>
@@ -60,7 +61,7 @@
               DAW UEA se presenta como una propuesta educativa para acompañar a personas que desean comprender cómo funciona una página web y reforzar sus bases en desarrollo del lado del cliente. La idea es explicar cada parte del proceso con un lenguaje claro, ejemplos visibles y actividades pequeñas que permitan avanzar con seguridad frente a etiquetas, estilos, componentes responsivos y scripts.
             </p>
             <p>
-              El sitio organiza el aprendizaje en rutas prácticas: primero se reconoce la estructura de una página con HTML5, luego se mejora la apariencia con CSS3, después se adapta el diseño con Bootstrap y, más adelante, se incorporan validaciones con JavaScript para que los formularios respondan de manera inteligente. Así, cada visitante puede mirar, probar y registrar su interés en la ruta que necesita reforzar.
+              El sitio organiza el aprendizaje en rutas prácticas: primero se reconoce la estructura de una página con HTML5, luego se mejora la apariencia con CSS3, después se adapta el diseño con Bootstrap y, más adelante, se incorporan validaciones con JavaScript para que los formularios respondan de manera inteligente.
             </p>
             <a href="#registro" class="btn btn-success px-4">Elegir mi ruta</a>
           </div>
@@ -79,12 +80,42 @@
           <span class="section-pill">Rutas de aprendizaje</span>
           <h2>Aprende por partes, aplica desde el primer día</h2>
           <p class="section-lead mx-auto">
-            Las rutas se generan desde un arreglo de JavaScript. De esta manera, la página evita repetir tarjetas manualmente y queda preparada para usar datos provenientes de Flask o una base de datos en próximas unidades.
+            Las rutas se generan desde un arreglo de JavaScript. De esta manera, la página evita repetir tarjetas manualmente y queda preparada para trabajar con datos provenientes de nuevas integraciones.
           </p>
         </div>
 
         <div id="estadoRutas" class="alert alert-success text-center mx-auto status-alert" role="alert"></div>
+        <div id="spinnerRutas" class="text-center my-4">
+          <div class="spinner-border text-success" role="status" aria-label="Cargando rutas"></div>
+          <p class="mt-2 mb-0">Cargando rutas desde JavaScript...</p>
+        </div>
         <div id="contenedorRutas" class="row g-4"></div>
+      </div>
+    </section>
+
+    <section id="interfaz" class="section-padding">
+      <div class="container">
+        <div class="row align-items-center g-5 mb-4">
+          <div class="col-lg-5">
+            <span class="section-pill">Bootstrap + JavaScript</span>
+            <h2>Herramientas visuales para construir una página moderna</h2>
+            <p>
+              La página integra recursos visuales que ayudan a comprender cómo se organiza una interfaz web moderna. El menú permite recorrer las secciones principales, las tarjetas presentan contenidos de forma ordenada, las alertas muestran respuestas inmediatas al usuario y el formulario valida la información antes de registrar una solicitud.
+            </p>
+          </div>
+          <div class="col-lg-7">
+            <div class="alert alert-primary border-0 shadow-sm" role="alert">
+              Con estos elementos, el sitio demuestra cómo Bootstrap mejora la presentación y cómo JavaScript aporta interacción sin recargar la página.
+            </div>
+          </div>
+        </div>
+
+        <div id="estadoComponentes" class="alert alert-success text-center mx-auto status-alert" role="alert"></div>
+        <div id="spinnerComponentes" class="text-center my-4">
+          <div class="spinner-border text-primary" role="status" aria-label="Cargando componentes"></div>
+          <p class="mt-2 mb-0">Preparando componentes visuales...</p>
+        </div>
+        <div id="contenedorComponentes" class="row g-4"></div>
       </div>
     </section>
 
@@ -98,7 +129,7 @@
               El sitio se organiza en bloques reutilizables para mantener una estructura clara y fácil de actualizar. El encabezado, el menú, el contenido principal y el pie de página se tratan como partes independientes, de modo que puedan adaptarse a una plantilla base cuando el proyecto avance hacia Flask.
             </p>
             <p>
-              Las tarjetas de esta sección no están copiadas una por una en el HTML. JavaScript toma datos organizados en objetos, recorre la información y renderiza cada bloque en pantalla, aplicando una condición para mostrar el estado de la estructura disponible.
+              Las tarjetas de esta sección se generan con JavaScript a partir de objetos, lo que permite representar contenido dinámico sin escribir manualmente el mismo bloque HTML varias veces.
             </p>
           </div>
           <div class="col-lg-7">
@@ -116,7 +147,7 @@
             <span class="section-pill">Método práctico</span>
             <h2>Antes de diseñar, entiende qué debe resolver la página</h2>
             <p>
-              Una página educativa funciona mejor cuando responde preguntas reales: qué aprenderá la persona, por dónde debe empezar, qué recurso le conviene y cómo puede pedir orientación. Por eso este sitio combina contenido explicativo con un formulario que clasifica intereses y muestra solicitudes sin recargar la página.
+              Una página educativa funciona mejor cuando responde preguntas reales: qué aprenderá la persona, por dónde debe empezar, qué recurso le conviene y cómo puede pedir orientación. Por eso este sitio combina contenido explicativo con formularios que clasifican intereses y muestran solicitudes sin actualizar el navegador.
             </p>
           </div>
           <div class="col-lg-7">
@@ -172,16 +203,11 @@
           </div>
           <aside class="col-lg-5">
             <div class="contact-card">
-              <h3>¿Por qué se incluye este video?</h3>
-              <p>
-                La navegación responsiva permite que el usuario encuentre secciones como rutas, registro y contacto sin perderse dentro del sitio. Además, conecta directamente con el uso de Bootstrap, grillas, botones y diseño adaptable.
-              </p>
-              <div class="mini-list">
-                <span>Navbar</span>
-                <span>Bootstrap 5</span>
-                <span>Diseño responsivo</span>
-                <span>Experiencia de usuario</span>
-              </div>
+              <h3>Detalles que fortalecen el sitio</h3>
+              <p><strong>Menú visible:</strong> permite saltar entre secciones sin buscar demasiado.</p>
+              <p><strong>Botones coherentes:</strong> guían hacia rutas, registro, video o contacto.</p>
+              <p><strong>Componentes Bootstrap:</strong> mejoran la presentación mediante cards, alertas, modal y spinner.</p>
+              <p><strong>Contenido organizado:</strong> cada bloque tiene una función específica para facilitar la lectura.</p>
             </div>
           </aside>
         </div>
@@ -197,60 +223,65 @@
             <p>
               Completa el formulario para registrar tu interés en una ruta de aprendizaje. El sistema revisa los datos en tiempo real, avisa cuando algo falta y guarda la solicitud en el listado inferior cuando toda la información está correcta.
             </p>
-            <div class="validation-panel">
+            <div class="validation-box">
               <h3>Validaciones del formulario</h3>
               <ul>
                 <li>Nombre con mínimo 4 caracteres.</li>
-                <li>Correo electrónico con formato válido.</li>
-                <li>Ruta, nivel, horario y modalidad obligatorios.</li>
-                <li>Objetivo de aprendizaje con mínimo 20 caracteres.</li>
-                <li>Mensajes de error y éxito sin recargar la página.</li>
+                <li>Correo electrónico válido.</li>
+                <li>Ruta, nivel, horario y modalidad seleccionados.</li>
+                <li>Objetivo con mínimo 20 caracteres.</li>
+                <li>Mensajes visuales con alertas y clases de Bootstrap.</li>
               </ul>
             </div>
           </div>
 
           <div class="col-lg-7">
-            <form id="formAprendizaje" class="form-card" novalidate>
+            <form id="formAprendizaje" class="form-card needs-validation" novalidate>
               <div id="mensajeGeneral" class="alert d-none" role="alert"></div>
+              <div id="spinnerRegistro" class="alert alert-info d-none align-items-center gap-2" role="status">
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span>Procesando solicitud de aprendizaje...</span>
+              </div>
+
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="nombre" class="form-label">Nombre completo</label>
-                  <input type="text" id="nombre" class="form-control" placeholder="Ejemplo: Ana Zambrano">
+                  <input type="text" id="nombre" class="form-control form-control-lg" placeholder="Ejemplo: Ana Zambrano" />
                   <div class="invalid-feedback">Ingrese un nombre de al menos 4 caracteres.</div>
                   <div class="valid-feedback">Nombre válido.</div>
                 </div>
                 <div class="col-md-6">
                   <label for="correo" class="form-label">Correo electrónico</label>
-                  <input type="email" id="correo" class="form-control" placeholder="correo@ejemplo.com">
+                  <input type="email" id="correo" class="form-control form-control-lg" placeholder="correo@ejemplo.com" />
                   <div class="invalid-feedback">Ingrese un correo electrónico válido.</div>
                   <div class="valid-feedback">Correo válido.</div>
                 </div>
                 <div class="col-md-6">
                   <label for="ruta" class="form-label">Ruta que desea aprender</label>
-                  <select id="ruta" class="form-select">
+                  <select id="ruta" class="form-select form-select-lg">
                     <option value="">Seleccione una ruta</option>
-                    <option value="HTML5 y estructura semántica">HTML5 y estructura semántica</option>
-                    <option value="Diseño visual con CSS3">Diseño visual con CSS3</option>
-                    <option value="Bootstrap y diseño responsivo">Bootstrap y diseño responsivo</option>
-                    <option value="JavaScript y validación de formularios">JavaScript y validación de formularios</option>
+                    <option value="HTML5 semántico">HTML5 semántico</option>
+                    <option value="CSS3 aplicado">CSS3 aplicado</option>
+                    <option value="Bootstrap responsivo">Bootstrap responsivo</option>
+                    <option value="JavaScript y validaciones">JavaScript y validaciones</option>
                   </select>
                   <div class="invalid-feedback">Seleccione una ruta de aprendizaje.</div>
                   <div class="valid-feedback">Ruta seleccionada.</div>
                 </div>
                 <div class="col-md-6">
                   <label for="nivel" class="form-label">Nivel actual</label>
-                  <select id="nivel" class="form-select">
+                  <select id="nivel" class="form-select form-select-lg">
                     <option value="">Seleccione su nivel</option>
                     <option value="Inicial">Inicial</option>
-                    <option value="Básico">Básico</option>
                     <option value="Intermedio">Intermedio</option>
+                    <option value="Reforzamiento">Reforzamiento</option>
                   </select>
                   <div class="invalid-feedback">Seleccione su nivel actual.</div>
                   <div class="valid-feedback">Nivel seleccionado.</div>
                 </div>
                 <div class="col-md-6">
                   <label for="horario" class="form-label">Horario preferido</label>
-                  <select id="horario" class="form-select">
+                  <select id="horario" class="form-select form-select-lg">
                     <option value="">Seleccione un horario</option>
                     <option value="Mañana">Mañana</option>
                     <option value="Tarde">Tarde</option>
@@ -261,40 +292,43 @@
                 </div>
                 <div class="col-md-6">
                   <label for="modalidad" class="form-label">Modalidad</label>
-                  <select id="modalidad" class="form-select">
+                  <select id="modalidad" class="form-select form-select-lg">
                     <option value="">Seleccione una modalidad</option>
-                    <option value="Virtual">Virtual</option>
-                    <option value="Presencial">Presencial</option>
-                    <option value="Mixta">Mixta</option>
+                    <option value="Guía práctica">Guía práctica</option>
+                    <option value="Clase corta">Clase corta</option>
+                    <option value="Acompañamiento personalizado">Acompañamiento personalizado</option>
                   </select>
                   <div class="invalid-feedback">Seleccione una modalidad.</div>
                   <div class="valid-feedback">Modalidad seleccionada.</div>
                 </div>
                 <div class="col-12">
                   <label for="objetivo" class="form-label">¿Qué te gustaría lograr?</label>
-                  <textarea id="objetivo" class="form-control" rows="4" placeholder="Ejemplo: Quiero aprender a crear una página para promocionar un emprendimiento pequeño."></textarea>
-                  <div class="invalid-feedback">Escriba un objetivo con al menos 20 caracteres.</div>
+                  <textarea id="objetivo" rows="4" class="form-control form-control-lg" placeholder="Ejemplo: Quiero crear una página para promocionar un emprendimiento pequeño."></textarea>
+                  <div class="invalid-feedback">Describa el objetivo con al menos 20 caracteres.</div>
                   <div class="valid-feedback">Objetivo claro.</div>
                 </div>
               </div>
-              <div class="d-flex gap-2 flex-wrap mt-4">
-                <button type="submit" class="btn btn-success">Registrar solicitud</button>
-                <button type="reset" id="btnLimpiar" class="btn btn-outline-secondary">Limpiar</button>
+
+              <div class="d-flex flex-wrap gap-2 mt-4">
+                <button type="submit" class="btn btn-success btn-lg">Registrar solicitud</button>
+                <button type="reset" id="btnLimpiar" class="btn btn-outline-secondary btn-lg">Limpiar</button>
               </div>
             </form>
           </div>
         </div>
 
-        <div class="records-section mt-5">
+        <div class="records-panel mt-5">
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
             <div>
-              <span class="section-pill">Solicitudes registradas</span>
-              <h2 class="mb-0">Intereses de aprendizaje</h2>
+              <span class="section-pill">Contenido dinámico</span>
+              <h3 class="mb-0">Solicitudes registradas</h3>
             </div>
-            <div class="counter-box">Total: <strong id="contadorRegistros">0</strong></div>
+            <span class="badge text-bg-success fs-6">Total: <span id="contadorRegistros">0</span></span>
           </div>
-          <p id="sinRegistros" class="empty-message">Todavía no hay solicitudes registradas. Complete el formulario para mostrar contenido dinámico en esta sección.</p>
-          <div id="listaRegistros" class="row g-4"></div>
+          <div id="sinRegistros" class="alert alert-warning" role="alert">
+            Aún no hay solicitudes registradas. Complete el formulario para mostrar información dinámica en esta sección.
+          </div>
+          <div id="listaRegistros" class="row g-3"></div>
         </div>
       </div>
     </section>
@@ -306,20 +340,15 @@
             <span class="section-pill">Contacto</span>
             <h2>Aprender web puede empezar con una pregunta sencilla</h2>
             <p>
-              Este espacio mantiene canales de comunicación para orientar a quienes desean iniciar en el desarrollo web, seleccionar una ruta de aprendizaje o resolver dudas sobre formularios, diseño responsivo y validaciones con JavaScript.
+              Este espacio mantiene canales de comunicación para orientar a quienes desean iniciar en el desarrollo web, seleccionar una ruta de aprendizaje o resolver dudas sobre formularios, diseño responsivo, Bootstrap y validaciones con JavaScript.
             </p>
-            <div class="contact-links">
-              <a href="mailto:janina.jumbo@estudiante.edu.ec" class="btn btn-success">Correo</a>
-              <a href="https://github.com/jany08/desarrollo-web-semana2" target="_blank" rel="noopener" class="btn btn-outline-success">GitHub</a>
-              <a href="https://jany08.github.io/desarrollo-web-semana2/" target="_blank" rel="noopener" class="btn btn-outline-success">Sitio web</a>
-              <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="btn btn-outline-success">Facebook</a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="btn btn-outline-success">Instagram</a>
-              <a href="https://www.google.com/maps/place/Zamora,+Ecuador" target="_blank" rel="noopener" class="btn btn-outline-success">Ubicación</a>
-            </div>
-            <div class="contact-data mt-4">
-              <p><strong>Correo:</strong> janina.jumbo@estudiante.edu.ec</p>
-              <p><strong>Teléfono:</strong> 0991234567</p>
-              <p><strong>Dirección:</strong> Zamora, Ecuador</p>
+            <div class="contact-buttons d-flex flex-wrap gap-2">
+              <a class="btn btn-success" href="mailto:janina.jumbo@estudiante.edu.ec">Correo</a>
+              <a class="btn btn-outline-success" href="https://github.com/jany08/desarrollo-web-semana2" target="_blank" rel="noopener">GitHub</a>
+              <a class="btn btn-outline-success" href="https://jany08.github.io/desarrollo-web-semana2/" target="_blank" rel="noopener">Sitio web</a>
+              <a class="btn btn-outline-success" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+              <a class="btn btn-outline-success" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+              <a class="btn btn-outline-success" href="https://www.google.com/maps/search/Zamora,+Ecuador" target="_blank" rel="noopener">Ubicación</a>
             </div>
           </div>
 
@@ -329,32 +358,32 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="contactoNombre" class="form-label">Nombre</label>
-                  <input type="text" id="contactoNombre" class="form-control" placeholder="Escriba su nombre">
+                  <input type="text" id="contactoNombre" class="form-control form-control-lg" placeholder="Escriba su nombre" />
                   <div class="invalid-feedback">Ingrese al menos 3 caracteres.</div>
-                  <div class="valid-feedback">Nombre correcto.</div>
+                  <div class="valid-feedback">Nombre válido.</div>
                 </div>
                 <div class="col-md-6">
                   <label for="contactoCorreo" class="form-label">Correo electrónico</label>
-                  <input type="email" id="contactoCorreo" class="form-control" placeholder="correo@ejemplo.com">
+                  <input type="email" id="contactoCorreo" class="form-control form-control-lg" placeholder="correo@ejemplo.com" />
                   <div class="invalid-feedback">Ingrese un correo válido.</div>
-                  <div class="valid-feedback">Correo correcto.</div>
+                  <div class="valid-feedback">Correo válido.</div>
                 </div>
                 <div class="col-12">
                   <label for="contactoAsunto" class="form-label">Asunto</label>
-                  <input type="text" id="contactoAsunto" class="form-control" placeholder="Consulta sobre desarrollo web">
-                  <div class="invalid-feedback">El asunto debe tener al menos 5 caracteres.</div>
+                  <input type="text" id="contactoAsunto" class="form-control form-control-lg" placeholder="Consulta sobre desarrollo web" />
+                  <div class="invalid-feedback">Ingrese un asunto de al menos 5 caracteres.</div>
                   <div class="valid-feedback">Asunto válido.</div>
                 </div>
                 <div class="col-12">
                   <label for="contactoMensaje" class="form-label">Mensaje</label>
-                  <textarea id="contactoMensaje" class="form-control" rows="5" placeholder="Escriba su mensaje"></textarea>
-                  <div class="invalid-feedback">El mensaje debe tener al menos 10 caracteres.</div>
+                  <textarea id="contactoMensaje" rows="5" class="form-control form-control-lg" placeholder="Escriba su mensaje"></textarea>
+                  <div class="invalid-feedback">Ingrese un mensaje de al menos 10 caracteres.</div>
                   <div class="valid-feedback">Mensaje válido.</div>
                 </div>
               </div>
-              <div class="d-flex gap-2 flex-wrap mt-4">
-                <button type="submit" class="btn btn-success">Enviar mensaje</button>
-                <button type="reset" id="btnLimpiarContacto" class="btn btn-outline-secondary">Limpiar</button>
+              <div class="d-flex flex-wrap gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Enviar mensaje</button>
+                <button type="reset" id="btnLimpiarContacto" class="btn btn-outline-secondary btn-lg">Limpiar</button>
               </div>
             </form>
           </div>
@@ -363,55 +392,90 @@
     </section>
   </main>
 
-  <!-- footer.html: pie de página común para una futura estructura de plantillas -->
-  <footer class="site-footer">
-    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
-      <p class="mb-0">DAW UEA | Desarrollo de Aplicaciones Web</p>
+  <!-- footer.html: pie de página común reutilizable -->
+  <footer class="footer">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <p class="mb-0">DAW UEA · Desarrollo de Aplicaciones Web</p>
       <p class="mb-0">HTML5 · CSS3 · Bootstrap · JavaScript</p>
     </div>
   </footer>
 
-  <!-- Plantilla reutilizable para renderizar tarjetas de rutas desde JavaScript -->
   <template id="templateRuta">
-    <article class="col-md-6 col-xl-3">
-      <div class="learning-card h-100">
-        <div class="card-icon"></div>
-        <h3></h3>
-        <p class="descripcion-ruta"></p>
-        <span class="resultado-ruta"></span>
-      </div>
-    </article>
+    <div class="col-md-6 col-xl-3">
+      <article class="card h-100 route-card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <span class="card-icon"></span>
+          <h3 class="h5 mt-3"></h3>
+          <p class="descripcion-ruta"></p>
+          <p class="resultado-ruta small fw-bold text-success mb-3"></p>
+          <button type="button" class="btn btn-outline-success btn-sm btn-detalle-ruta">Ver detalle</button>
+        </div>
+      </article>
+    </div>
   </template>
 
-  <!-- Plantilla reutilizable para renderizar bloques que podrían migrarse a Flask -->
+  <template id="templateComponenteBootstrap">
+    <div class="col-md-6 col-xl-4">
+      <article class="card h-100 component-card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <span class="badge rounded-pill text-bg-success componente-tipo"></span>
+          <h3 class="h5 mt-3"></h3>
+          <p class="descripcion-componente"></p>
+          <button type="button" class="btn btn-primary btn-sm btn-detalle-componente">Ver aplicación</button>
+        </div>
+      </article>
+    </div>
+  </template>
+
   <template id="templateComponente">
-    <article class="col-md-6">
-      <div class="template-card h-100">
+    <div class="col-md-6">
+      <article class="template-card">
         <span class="template-label"></span>
         <h3></h3>
         <p class="uso-componente"></p>
-        <small class="archivo-sugerido"></small>
-      </div>
-    </article>
+        <strong class="archivo-sugerido"></strong>
+      </article>
+    </div>
   </template>
 
-  <!-- Plantilla reutilizable para las solicitudes creadas desde el formulario -->
   <template id="templateSolicitud">
-    <article class="col-md-6 col-xl-4">
-      <div class="record-card h-100">
-        <h3 class="registro-nombre"></h3>
-        <p><strong>Correo:</strong> <span class="registro-correo"></span></p>
-        <div class="record-meta">
-          <span class="registro-ruta"></span>
-          <span class="registro-nivel"></span>
-          <span class="registro-horario"></span>
-          <span class="registro-modalidad"></span>
+    <div class="col-md-6 col-xl-4">
+      <article class="card h-100 record-card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-start gap-3">
+            <div>
+              <h4 class="h5 registro-nombre"></h4>
+              <p class="registro-correo text-muted mb-2"></p>
+            </div>
+            <span class="badge text-bg-primary registro-nivel"></span>
+          </div>
+          <p class="mb-1"><strong>Ruta:</strong> <span class="registro-ruta"></span></p>
+          <p class="mb-1"><strong>Horario:</strong> <span class="registro-horario"></span></p>
+          <p class="mb-3"><strong>Modalidad:</strong> <span class="registro-modalidad"></span></p>
+          <p class="registro-objetivo small"></p>
+          <div class="d-flex gap-2 flex-wrap">
+            <button type="button" class="btn btn-primary btn-sm btn-detalle-registro">Detalle</button>
+            <button type="button" class="btn btn-danger btn-sm btn-eliminar">Eliminar</button>
+          </div>
         </div>
-        <p class="registro-objetivo"></p>
-        <button class="btn btn-outline-danger btn-sm" type="button">Eliminar</button>
-      </div>
-    </article>
+      </article>
+    </div>
   </template>
+
+  <div class="modal fade" id="modalInformacion" tabindex="-1" aria-labelledby="modalTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitulo">Detalle</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="modalContenido"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>

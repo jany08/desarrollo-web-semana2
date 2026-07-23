@@ -1,41 +1,80 @@
 const datosRutas = [
   {
-    icono: 'HTML',
-    titulo: 'Estructura semántica',
-    descripcion: 'Organiza encabezado, navegación, secciones, artículos, formularios y pie de página para que el sitio tenga una base clara.',
-    resultado: 'Resultado: página ordenada'
+    icono: '①',
+    titulo: 'HTML5 semántico',
+    descripcion: 'Reconoce la estructura base de una página usando header, nav, main, section, article, aside y footer.',
+    resultado: 'Resultado: una página organizada y comprensible.'
   },
   {
-    icono: 'CSS',
-    titulo: 'Diseño visual',
-    descripcion: 'Aplica colores, tipografías, márgenes, bordes, sombras y efectos básicos para mejorar la lectura y la presentación.',
-    resultado: 'Resultado: interfaz atractiva'
+    icono: '②',
+    titulo: 'CSS3 aplicado',
+    descripcion: 'Mejora colores, márgenes, tipografías, bordes y distribución visual para que el sitio sea más claro.',
+    resultado: 'Resultado: una interfaz ordenada y atractiva.'
   },
   {
-    icono: 'BS',
-    titulo: 'Diseño responsivo',
-    descripcion: 'Utiliza Bootstrap para distribuir contenidos en contenedores, filas, columnas, botones, formularios y tarjetas adaptables.',
-    resultado: 'Resultado: sitio adaptable'
+    icono: '③',
+    titulo: 'Bootstrap responsivo',
+    descripcion: 'Utiliza grillas, botones, tarjetas, alertas, formularios, navbar, modal y spinner para mejorar la experiencia.',
+    resultado: 'Resultado: diseño adaptable a diferentes pantallas.'
   },
   {
-    icono: 'JS',
-    titulo: 'Interacción y validación',
-    descripcion: 'Valida formularios, controla eventos, muestra mensajes dinámicos y registra información sin recargar la página.',
-    resultado: 'Resultado: página interactiva'
+    icono: '④',
+    titulo: 'JavaScript dinámico',
+    descripcion: 'Aplica eventos, validaciones, renderizado de datos, conteo, almacenamiento local y eliminación de registros.',
+    resultado: 'Resultado: una página con interacción real.'
   }
 ];
+
+const componentesBootstrap = [
+  {
+    tipo: 'navbar',
+    titulo: 'Menú responsivo',
+    descripcion: 'Permite recorrer las secciones principales desde computadora, tablet o celular sin perder la orientación dentro del sitio.',
+    detalle: 'La navegación mantiene visible la organización del contenido y guía al usuario hacia rutas, estructura, video, registro y contacto.'
+  },
+  {
+    tipo: 'grid',
+    titulo: 'Distribución por secciones',
+    descripcion: 'Organiza textos, tarjetas y formularios en columnas adaptables para que la lectura sea más cómoda en distintos tamaños de pantalla.',
+    detalle: 'La rejilla ayuda a que la información no se amontone, mantiene equilibrio visual y permite que cada sección tenga un espacio claro.'
+  },
+  {
+    tipo: 'card',
+    titulo: 'Tarjetas de aprendizaje',
+    descripcion: 'Presentan los temas por bloques breves para que el usuario identifique con rapidez qué puede revisar, practicar o registrar.',
+    detalle: 'Las tarjetas permiten mostrar información ordenada a partir de datos guardados en JavaScript, evitando repetir manualmente el mismo diseño.'
+  },
+  {
+    tipo: 'alert',
+    titulo: 'Mensajes de orientación',
+    descripcion: 'Muestran avisos de éxito, advertencia o error cuando el usuario interactúa con el formulario o consulta información del sitio.',
+    detalle: 'Las alertas hacen que la página responda con claridad, especialmente cuando falta completar un dato o cuando una solicitud se registra correctamente.'
+  },
+  {
+    tipo: 'modal',
+    titulo: 'Ventana de detalles',
+    descripcion: 'Abre información adicional sin sacar al usuario de la página principal ni cargar otra vista.',
+    detalle: 'El modal permite ampliar una explicación, revisar un componente o confirmar una acción manteniendo la navegación en el mismo sitio.'
+  },
+  {
+    tipo: 'spinner',
+    titulo: 'Indicador de proceso',
+    descripcion: 'Simula una espera breve mientras JavaScript prepara rutas, componentes o solicitudes registradas.',
+    detalle: 'El spinner comunica que el sistema está procesando información y mejora la sensación de respuesta durante una acción dinámica.'
+  }
+]
 
 const bloquesPlantilla = [
   {
     etiqueta: 'base.html',
-    titulo: 'Bloque principal',
-    uso: 'Integra la estructura general del sitio y permite ubicar de forma ordenada las secciones que se repiten.',
+    titulo: 'Encabezado común',
+    uso: 'Mantiene el nombre del sitio, el fondo principal y la primera impresión visual del proyecto.',
     archivo: 'Parte reutilizable: header'
   },
   {
     etiqueta: 'navbar.html',
-    titulo: 'Navegación común',
-    uso: 'Mantiene el menú visible para acceder a inicio, rutas, plantillas, video, registro y contacto sin duplicar enlaces.',
+    titulo: 'Menú de navegación',
+    uso: 'Permite moverse entre secciones sin repetir código de navegación en cada vista.',
     archivo: 'Parte reutilizable: nav'
   },
   {
@@ -54,32 +93,82 @@ const bloquesPlantilla = [
 
 const contenedorRutas = document.getElementById('contenedorRutas');
 const estadoRutas = document.getElementById('estadoRutas');
+const spinnerRutas = document.getElementById('spinnerRutas');
 const templateRuta = document.getElementById('templateRuta');
+
+const contenedorComponentes = document.getElementById('contenedorComponentes');
+const estadoComponentes = document.getElementById('estadoComponentes');
+const spinnerComponentes = document.getElementById('spinnerComponentes');
+const templateComponenteBootstrap = document.getElementById('templateComponenteBootstrap');
 
 const contenedorPlantillas = document.getElementById('contenedorPlantillas');
 const estadoPlantillas = document.getElementById('estadoPlantillas');
 const templateComponente = document.getElementById('templateComponente');
 
+const modalElemento = document.getElementById('modalInformacion');
+const modalTitulo = document.getElementById('modalTitulo');
+const modalContenido = document.getElementById('modalContenido');
+const modalInformacion = new bootstrap.Modal(modalElemento);
+
+function abrirModal(titulo, contenido) {
+  modalTitulo.textContent = titulo;
+  modalContenido.innerHTML = contenido;
+  modalInformacion.show();
+}
+
 function renderizarRutas() {
   contenedorRutas.innerHTML = '';
+  spinnerRutas.classList.remove('d-none');
 
-  if (datosRutas.length === 0) {
-    estadoRutas.className = 'alert alert-danger text-center mx-auto status-alert';
-    estadoRutas.textContent = 'No existen rutas de aprendizaje disponibles por el momento.';
-    return;
-  }
+  setTimeout(() => {
+    spinnerRutas.classList.add('d-none');
 
-  estadoRutas.className = 'alert alert-success text-center mx-auto status-alert';
-  estadoRutas.textContent = `Se muestran ${datosRutas.length} rutas generadas dinámicamente desde JavaScript.`;
+    if (datosRutas.length === 0) {
+      estadoRutas.className = 'alert alert-danger text-center mx-auto status-alert';
+      estadoRutas.textContent = 'No existen rutas de aprendizaje disponibles por el momento.';
+      return;
+    }
 
-  datosRutas.forEach(ruta => {
-    const fragmento = templateRuta.content.cloneNode(true);
-    fragmento.querySelector('.card-icon').textContent = ruta.icono;
-    fragmento.querySelector('h3').textContent = ruta.titulo;
-    fragmento.querySelector('.descripcion-ruta').textContent = ruta.descripcion;
-    fragmento.querySelector('.resultado-ruta').textContent = ruta.resultado;
-    contenedorRutas.appendChild(fragmento);
-  });
+    estadoRutas.className = 'alert alert-success text-center mx-auto status-alert';
+    estadoRutas.textContent = `Se muestran ${datosRutas.length} rutas generadas dinámicamente desde JavaScript.`;
+
+    datosRutas.forEach((ruta, indice) => {
+      const fragmento = templateRuta.content.cloneNode(true);
+      fragmento.querySelector('.card-icon').textContent = ruta.icono;
+      fragmento.querySelector('h3').textContent = ruta.titulo;
+      fragmento.querySelector('.descripcion-ruta').textContent = ruta.descripcion;
+      fragmento.querySelector('.resultado-ruta').textContent = ruta.resultado;
+      fragmento.querySelector('.btn-detalle-ruta').dataset.indice = indice;
+      contenedorRutas.appendChild(fragmento);
+    });
+  }, 550);
+}
+
+function renderizarComponentesBootstrap() {
+  contenedorComponentes.innerHTML = '';
+  spinnerComponentes.classList.remove('d-none');
+
+  setTimeout(() => {
+    spinnerComponentes.classList.add('d-none');
+
+    if (componentesBootstrap.length === 0) {
+      estadoComponentes.className = 'alert alert-danger text-center mx-auto status-alert';
+      estadoComponentes.textContent = 'No hay componentes Bootstrap registrados para mostrar.';
+      return;
+    }
+
+    estadoComponentes.className = 'alert alert-success text-center mx-auto status-alert';
+    estadoComponentes.textContent = `La página muestra ${componentesBootstrap.length} herramientas visuales que ayudan a organizar, orientar y validar la experiencia del usuario.`;
+
+    componentesBootstrap.forEach((componente, indice) => {
+      const fragmento = templateComponenteBootstrap.content.cloneNode(true);
+      fragmento.querySelector('.componente-tipo').textContent = `.${componente.tipo}`;
+      fragmento.querySelector('h3').textContent = componente.titulo;
+      fragmento.querySelector('.descripcion-componente').textContent = componente.descripcion;
+      fragmento.querySelector('.btn-detalle-componente').dataset.indice = indice;
+      contenedorComponentes.appendChild(fragmento);
+    });
+  }, 700);
 }
 
 function renderizarPlantillas() {
@@ -104,8 +193,29 @@ function renderizarPlantillas() {
   });
 }
 
+contenedorRutas.addEventListener('click', event => {
+  const boton = event.target.closest('.btn-detalle-ruta');
+  if (!boton) return;
+  const ruta = datosRutas[Number(boton.dataset.indice)];
+  abrirModal(
+    ruta.titulo,
+    `<p>${ruta.descripcion}</p><div class="alert alert-success mb-0">${ruta.resultado}</div>`
+  );
+});
+
+contenedorComponentes.addEventListener('click', event => {
+  const boton = event.target.closest('.btn-detalle-componente');
+  if (!boton) return;
+  const componente = componentesBootstrap[Number(boton.dataset.indice)];
+  abrirModal(
+    componente.titulo,
+    `<p><strong>Aplicación en la página:</strong> ${componente.detalle}</p><div class="alert alert-primary mb-0">La información se muestra de forma dinámica para explicar cómo funciona este recurso dentro del sitio.</div>`
+  );
+});
+
 const formulario = document.getElementById('formAprendizaje');
 const mensajeGeneral = document.getElementById('mensajeGeneral');
+const spinnerRegistro = document.getElementById('spinnerRegistro');
 const listaRegistros = document.getElementById('listaRegistros');
 const sinRegistros = document.getElementById('sinRegistros');
 const contadorRegistros = document.getElementById('contadorRegistros');
@@ -163,6 +273,16 @@ function ocultarMensaje() {
   mensajeGeneral.textContent = '';
 }
 
+function mostrarSpinnerRegistro() {
+  spinnerRegistro.classList.remove('d-none');
+  spinnerRegistro.classList.add('d-flex');
+}
+
+function ocultarSpinnerRegistro() {
+  spinnerRegistro.classList.add('d-none');
+  spinnerRegistro.classList.remove('d-flex');
+}
+
 function guardarRegistros() {
   localStorage.setItem('solicitudesDawUea', JSON.stringify(registros));
 }
@@ -172,6 +292,7 @@ function renderizarRegistros() {
   contadorRegistros.textContent = registros.length;
 
   if (registros.length === 0) {
+    sinRegistros.className = 'alert alert-warning';
     sinRegistros.style.display = 'block';
     return;
   }
@@ -187,7 +308,8 @@ function renderizarRegistros() {
     fragmento.querySelector('.registro-horario').textContent = registro.horario;
     fragmento.querySelector('.registro-modalidad').textContent = registro.modalidad;
     fragmento.querySelector('.registro-objetivo').textContent = registro.objetivo;
-    fragmento.querySelector('button').dataset.id = registro.id;
+    fragmento.querySelector('.btn-detalle-registro').dataset.id = registro.id;
+    fragmento.querySelector('.btn-eliminar').dataset.id = registro.id;
     listaRegistros.appendChild(fragmento);
   });
 }
@@ -206,38 +328,63 @@ formulario.addEventListener('submit', event => {
     return;
   }
 
-  const nuevoRegistro = {
-    id: Date.now(),
-    nombre: campos.nombre.value.trim(),
-    correo: campos.correo.value.trim(),
-    ruta: campos.ruta.value,
-    nivel: campos.nivel.value,
-    horario: campos.horario.value,
-    modalidad: campos.modalidad.value,
-    objetivo: campos.objetivo.value.trim()
-  };
+  mostrarSpinnerRegistro();
 
-  registros.unshift(nuevoRegistro);
-  guardarRegistros();
-  renderizarRegistros();
-  mostrarMensaje('success', 'Solicitud registrada correctamente. El interés de aprendizaje aparece en el listado.');
+  setTimeout(() => {
+    const nuevoRegistro = {
+      id: Date.now(),
+      nombre: campos.nombre.value.trim(),
+      correo: campos.correo.value.trim(),
+      ruta: campos.ruta.value,
+      nivel: campos.nivel.value,
+      horario: campos.horario.value,
+      modalidad: campos.modalidad.value,
+      objetivo: campos.objetivo.value.trim()
+    };
 
-  formulario.reset();
-  Object.values(campos).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
+    registros.unshift(nuevoRegistro);
+    guardarRegistros();
+    renderizarRegistros();
+    ocultarSpinnerRegistro();
+    mostrarMensaje('success', 'Solicitud registrada correctamente. El interés de aprendizaje aparece en el listado dinámico.');
+
+    formulario.reset();
+    Object.values(campos).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
+  }, 650);
 });
 
 listaRegistros.addEventListener('click', event => {
-  if (event.target.matches('button[data-id]')) {
-    const id = Number(event.target.dataset.id);
+  const botonDetalle = event.target.closest('.btn-detalle-registro');
+  const botonEliminar = event.target.closest('.btn-eliminar');
+
+  if (botonDetalle) {
+    const id = Number(botonDetalle.dataset.id);
+    const registro = registros.find(item => item.id === id);
+    if (!registro) return;
+    abrirModal(
+      `Solicitud de ${registro.nombre}`,
+      `<p><strong>Correo:</strong> ${registro.correo}</p>
+       <p><strong>Ruta:</strong> ${registro.ruta}</p>
+       <p><strong>Nivel:</strong> ${registro.nivel}</p>
+       <p><strong>Horario:</strong> ${registro.horario}</p>
+       <p><strong>Modalidad:</strong> ${registro.modalidad}</p>
+       <div class="alert alert-success mb-0"><strong>Objetivo:</strong> ${registro.objetivo}</div>`
+    );
+    return;
+  }
+
+  if (botonEliminar) {
+    const id = Number(botonEliminar.dataset.id);
     registros = registros.filter(registro => registro.id !== id);
     guardarRegistros();
     renderizarRegistros();
-    mostrarMensaje('success', 'Registro eliminado correctamente.');
+    mostrarMensaje('success', 'Registro eliminado correctamente. El contador fue actualizado.');
   }
 });
 
 btnLimpiar.addEventListener('click', () => {
   ocultarMensaje();
+  ocultarSpinnerRegistro();
   Object.values(campos).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
 });
 
@@ -288,32 +435,31 @@ function ocultarMensajeContacto() {
   mensajeContacto.textContent = '';
 }
 
-if (formContacto) {
-  Object.keys(camposContacto).forEach(nombreCampo => {
-    camposContacto[nombreCampo].addEventListener('input', () => validarCampoContacto(nombreCampo));
-    camposContacto[nombreCampo].addEventListener('blur', () => validarCampoContacto(nombreCampo));
-  });
+Object.keys(camposContacto).forEach(nombreCampo => {
+  camposContacto[nombreCampo].addEventListener('input', () => validarCampoContacto(nombreCampo));
+  camposContacto[nombreCampo].addEventListener('blur', () => validarCampoContacto(nombreCampo));
+});
 
-  formContacto.addEventListener('submit', event => {
-    event.preventDefault();
-    ocultarMensajeContacto();
+formContacto.addEventListener('submit', event => {
+  event.preventDefault();
+  ocultarMensajeContacto();
 
-    if (!validarContactoCompleto()) {
-      mostrarMensajeContacto('danger', 'Revise los campos marcados antes de enviar la consulta.');
-      return;
-    }
+  if (!validarContactoCompleto()) {
+    mostrarMensajeContacto('danger', 'Revise los campos marcados antes de enviar la consulta.');
+    return;
+  }
 
-    mostrarMensajeContacto('success', 'Consulta registrada correctamente. Puede continuar revisando las rutas de aprendizaje.');
-    formContacto.reset();
-    Object.values(camposContacto).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
-  });
+  mostrarMensajeContacto('success', 'Consulta registrada correctamente. Puede continuar revisando las rutas de aprendizaje.');
+  formContacto.reset();
+  Object.values(camposContacto).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
+});
 
-  btnLimpiarContacto.addEventListener('click', () => {
-    ocultarMensajeContacto();
-    Object.values(camposContacto).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
-  });
-}
+btnLimpiarContacto.addEventListener('click', () => {
+  ocultarMensajeContacto();
+  Object.values(camposContacto).forEach(campo => campo.classList.remove('is-valid', 'is-invalid'));
+});
 
 renderizarRutas();
+renderizarComponentesBootstrap();
 renderizarPlantillas();
 renderizarRegistros();
