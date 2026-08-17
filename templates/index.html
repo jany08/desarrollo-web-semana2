@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}DAW UEA | Inicio{% endblock %}
+{% block content %}
+<header class="hero">
+  <div class="hero-content">
+    <span class="badge-soft">Aplicación Flask ejecutada localmente</span>
+    <h1>Aprende Desarrollo de Aplicaciones Web</h1>
+    <p>La versión Flask organiza el proyecto educativo mediante rutas, plantillas Jinja2 y recursos estáticos separados.</p>
+    <div class="hero-actions">
+      <a class="btn-main" href="{{ url_for('rutas') }}">Ver rutas</a>
+      <a class="btn-outline-soft" href="{{ url_for('solicitudes') }}">Ver solicitudes</a>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container text-center">
+    <span class="badge-soft mb-4">Módulos internos</span>
+    <h2 class="section-title">Contenido organizado con rutas Flask</h2>
+    <p class="lead-text mx-auto" style="max-width:850px">Cada módulo se renderiza desde una vista independiente y hereda el encabezado, menú y pie de página definidos en base.html.</p>
+    <div class="row g-4 mt-4 text-start">
+      {% for modulo in modulos %}
+      <article class="col-md-6 col-xl-3">
+        <div class="card-clean">
+          <div class="card-body">
+            <span class="pill">{{ modulo.etiqueta }}</span>
+            <h3 class="h4 fw-bold">{{ modulo.nombre }}</h3>
+            <p class="muted-text">{{ modulo.descripcion }}</p>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

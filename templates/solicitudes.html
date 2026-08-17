@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}DAW UEA | Solicitudes{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <span class="badge-soft mb-4">Solicitudes</span>
+    <h1 class="section-title">Consultas registradas de forma demostrativa</h1>
+    <div class="title-line"></div>
+    {% if solicitudes %}
+      <div class="row g-4">
+        {% for solicitud in solicitudes %}
+        <div class="col-md-6">
+          <div class="card-clean">
+            <div class="card-body">
+              <span class="pill">{{ solicitud.estado }}</span>
+              <h2 class="h4 fw-bold">{{ solicitud.tema }}</h2>
+              <p class="muted-text mb-0">Registro de ejemplo para representar el seguimiento de dudas dentro del proyecto educativo.</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-warning">No existen solicitudes registradas.</div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

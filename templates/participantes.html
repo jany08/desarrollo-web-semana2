@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}DAW UEA | Participantes{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <span class="badge-soft mb-4">Participantes</span>
+    <h1 class="section-title">Usuarios interesados en aprender</h1>
+    <div class="title-line"></div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Perfil</th>
+            <th>Interés principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for participante in participantes %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ participante.nombre }}</td>
+            <td>{{ participante.interes }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

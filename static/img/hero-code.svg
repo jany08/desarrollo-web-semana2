@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900">
+<defs>
+<linearGradient id="g" x1="0" x2="1">
+<stop offset="0" stop-color="#092f4f"/>
+<stop offset="1" stop-color="#0b8f7d"/>
+</linearGradient>
+<filter id="b"><feGaussianBlur stdDeviation="4"/></filter>
+</defs>
+<rect width="1400" height="900" fill="url(#g)"/>
+<g opacity=".22" filter="url(#b)">
+<rect x="190" y="100" width="900" height="560" rx="36" fill="#ffffff"/>
+<rect x="245" y="170" width="780" height="45" rx="12" fill="#092f4f"/>
+<circle cx="280" cy="192" r="10" fill="#ff5f57"/>
+<circle cx="312" cy="192" r="10" fill="#ffbd2e"/>
+<circle cx="344" cy="192" r="10" fill="#28c840"/>
+<text x="270" y="300" font-family="Consolas, monospace" font-size="42" fill="#fff">&lt;section class="container"&gt;</text>
+<text x="310" y="370" font-family="Consolas, monospace" font-size="42" fill="#b7fff1">&lt;h1&gt;Aprender web&lt;/h1&gt;</text>
+<text x="310" y="440" font-family="Consolas, monospace" font-size="42" fill="#fff">&lt;script src="script.js"&gt;&lt;/script&gt;</text>
+<text x="270" y="510" font-family="Consolas, monospace" font-size="42" fill="#b7fff1">&lt;/section&gt;</text>
+</g>
+<g opacity=".24">
+<circle cx="1140" cy="210" r="150" fill="#fff"/>
+<circle cx="1180" cy="610" r="210" fill="#61e8d0"/>
+<circle cx="180" cy="720" r="140" fill="#fff"/>
+</g>
+</svg>

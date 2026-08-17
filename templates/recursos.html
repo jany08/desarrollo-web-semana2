@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}DAW UEA | Recursos{% endblock %}
+{% block content %}
+<section class="section section-soft">
+  <div class="container">
+    <span class="badge-soft mb-4">Recursos digitales</span>
+    <h1 class="section-title">Materiales para reforzar la práctica</h1>
+    <div class="title-line"></div>
+    <div class="row g-4">
+      {% for recurso in recursos %}
+      <div class="col-md-4">
+        <div class="card-clean">
+          <div class="card-body">
+            <span class="pill">{{ recurso.estado }}</span>
+            <h2 class="h4 fw-bold">{{ recurso.titulo }}</h2>
+            <p class="muted-text mb-0">{{ recurso.tipo }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}DAW UEA | Rutas{% endblock %}
+{% block content %}
+<section class="section section-soft">
+  <div class="container">
+    <span class="badge-soft mb-4">Rutas de aprendizaje</span>
+    <h1 class="section-title">Camino práctico para aprender desarrollo web</h1>
+    <div class="title-line"></div>
+    <div class="row g-4">
+      {% for ruta in rutas %}
+      <div class="col-md-6">
+        <div class="card-clean">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <h2 class="h4 fw-bold mb-0">{{ ruta }}</h2>
+            <span class="route-number">{{ loop.index }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
