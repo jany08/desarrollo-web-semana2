@@ -40,5 +40,3 @@ python app.py
 http://127.0.0.1:5000
 ```
 
-## Publicación
-GitHub Pages debe mostrar el archivo `index.html` ubicado en la parte principal del repositorio. La aplicación Flask se ejecuta localmente, mientras que GitHub Pages mantiene visible la parte frontend del proyecto.
