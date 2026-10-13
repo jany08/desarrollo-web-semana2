@@ -1,24 +1,20 @@
 # DAW UEA — Aprende a crear páginas web
 
-Plataforma educativa sobre HTML, CSS, Bootstrap, JavaScript y Flask, con rutas de aprendizaje, prácticas, enlaces gratuitos y un cuaderno de consultas guardadas localmente en el navegador.
+Plataforma educativa con rutas de HTML, CSS, Bootstrap, JavaScript y Flask, recursos gratuitos y ejercicios. La interfaz pública mantiene su propósito educativo.
 
-## Proyecto Integrador — Semana 10
+## Desarrollo académico: avance 11/16
 
-Se preservan las cinco rutas Flask (`/`, `/rutas`, `/participantes`, `/recursos`, `/solicitudes`). Las plantillas heredan de `base.html` y reutilizan componentes en `templates/components/`. Los datos provienen de listas y diccionarios en `app.py`; se muestran mediante `{{ variable }}`, bucles `{% for %}`, condicionales `{% if %}`/`{% else %}` y filtros (`upper`). No requiere base de datos.
+Se mantienen todas las rutas, plantillas y recursos de las semanas previas. Se añade la carpeta `forms/` con cuatro clases `FlaskForm` adaptadas a los módulos de DAW UEA y cuatro vistas de práctica con GET/POST, mensajes de errores por campo, `DataRequired`, `Length`, `Email`, `URL`, `form.hidden_tag()` (CSRF) y `validate_on_submit()`.
 
-## Ejecutar Flask localmente
+Las rutas nuevas son `/solicitudes/nueva`, `/rutas/proponer`, `/participantes/perfil` y `/recursos/sugerir`. Los registros son demostrativos y permanecen en memoria durante la ejecución del servidor; al reiniciarlo se pierden. El formulario del frontend publicado usa `localStorage`, de modo que no debe interpretarse como una herramienta de envío de consultas a docentes.
 
-```bash
-python -m pip install -r requirements.txt
-python app.py
-```
+## Ejecución local
 
-Abrir http://127.0.0.1:5000 y verificar cada ruta. GitHub Pages sirve el archivo `index.html` de la raíz y no ejecuta Python.
+1. Crea y activa un entorno virtual de Python.
+2. Instala las dependencias con `python -m pip install -r requirements.txt`.
+3. Ejecuta `python app.py` y visita `http://127.0.0.1:5000/`.
+4. Comprueba cada formulario con campos vacíos, valores incorrectos y datos válidos. Verifica el token CSRF y que la navegación siga funcionando.
 
-## Consultas
+En producción define `SECRET_KEY` mediante una variable de entorno persistente y segura. Para pruebas locales la aplicación genera una clave temporal aleatoria al arrancar.
 
-El formulario está diseñado como cuaderno personal: utiliza `localStorage`. No envía correos ni mensajes a docentes o terceros.
-
-## Recursos
-
-Documentación pública de MDN, Bootstrap y Flask.
+GitHub Pages únicamente publica la interfaz estática `index.html` junto con CSS y JavaScript. Las rutas Flask-WTF requieren el servidor local.

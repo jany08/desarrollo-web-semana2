@@ -1,0 +1,7 @@
+{% for campo in form if campo.type not in ['CSRFTokenField', 'HiddenField', 'SubmitField'] %}
+<div class="mb-3">
+  {{ campo.label(class_="form-label fw-semibold") }}
+  {{ campo(class_="form-control is-invalid" if campo.errors else ("form-select" if campo.type == "SelectField" else "form-control"), **({"rows": 4} if campo.type == "TextAreaField" else {})) }}
+  {% for error in campo.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+</div>
+{% endfor %}

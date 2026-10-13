@@ -1,6 +1,22 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for, request
+import os
+import secrets
+
+from forms.consulta_form import ConsultaForm
+from forms.ruta_form import RutaForm
+from forms.participante_form import ParticipanteForm
+from forms.recurso_form import RecursoForm
 
 app = Flask(__name__)
+# Para despliegues reales configura SECRET_KEY como variable de entorno.
+# La clave temporal permite la ejecución local sin guardar secretos en GitHub.
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
+
+# Datos temporales en memoria: se borran cuando se reinicia el servidor.
+CONSULTAS_DEMO = []
+RUTAS_PROPUESTAS = []
+PERFILES_DEMO = []
+RECURSOS_PROPUESTOS = []
 PLATAFORMA = {"nombre": "DAW UEA", "lema": "Aprende, practica y crea"}
 NAVEGACION = [
     {"titulo": "Inicio", "endpoint": "inicio"},
@@ -59,6 +75,51 @@ def recursos():
 @app.route("/solicitudes")
 def solicitudes():
     return render_template("solicitudes.html", rutas=RUTAS, active="solicitudes")
+
+
+
+@app.route("/solicitudes/nueva", methods=["GET", "POST"])
+def nueva_consulta():
+    form = ConsultaForm()
+    if form.validate_on_submit():
+        CONSULTAS_DEMO.append({"nombre": form.nombre.data.strip(), "tema": form.tema.data,
+                               "mensaje": form.mensaje.data.strip()})
+        flash("Tu consulta se registró para esta sesión de demostración.", "success")
+        return redirect(url_for("nueva_consulta"))
+    return render_template("formulario_consulta.html", form=form, registros=CONSULTAS_DEMO, active="solicitudes")
+
+
+@app.route("/rutas/proponer", methods=["GET", "POST"])
+def proponer_ruta():
+    form = RutaForm()
+    if form.validate_on_submit():
+        RUTAS_PROPUESTAS.append({"titulo": form.titulo.data.strip(), "nivel": form.nivel.data,
+                                "objetivo": form.objetivo.data.strip()})
+        flash("Propuesta registrada para esta sesión de práctica.", "success")
+        return redirect(url_for("proponer_ruta"))
+    return render_template("formulario_ruta.html", form=form, registros=RUTAS_PROPUESTAS, active="rutas")
+
+
+@app.route("/participantes/perfil", methods=["GET", "POST"])
+def crear_perfil():
+    form = ParticipanteForm()
+    if form.validate_on_submit():
+        PERFILES_DEMO.append({"alias": form.alias.data.strip(), "nivel": form.nivel.data,
+                             "interes": form.interes.data.strip()})
+        flash("Perfil de aprendizaje registrado temporalmente.", "success")
+        return redirect(url_for("crear_perfil"))
+    return render_template("formulario_participante.html", form=form, registros=PERFILES_DEMO, active="participantes")
+
+
+@app.route("/recursos/sugerir", methods=["GET", "POST"])
+def sugerir_recurso():
+    form = RecursoForm()
+    if form.validate_on_submit():
+        RECURSOS_PROPUESTOS.append({"titulo": form.titulo.data.strip(), "categoria": form.categoria.data,
+                                   "descripcion": form.descripcion.data.strip(), "enlace": form.enlace.data})
+        flash("Recurso agregado a la lista temporal de sugerencias.", "success")
+        return redirect(url_for("sugerir_recurso"))
+    return render_template("formulario_recurso.html", form=form, registros=RECURSOS_PROPUESTOS, active="recursos")
 
 if __name__ == "__main__":
     app.run(debug=True)
