@@ -1,42 +1,24 @@
-# DAW UEA - Proyecto Integrador U3 · Avance 9/16
+# DAW UEA — Aprende a crear páginas web
 
-## Descripción
-Este proyecto conserva el frontend educativo publicado en GitHub Pages y agrega una estructura inicial con Flask para organizar rutas, plantillas y recursos estáticos.
+Plataforma educativa sobre HTML, CSS, Bootstrap, JavaScript y Flask, con rutas de aprendizaje, prácticas, enlaces gratuitos y un cuaderno de consultas guardadas localmente en el navegador.
 
-## Estructura
-```text
-app.py
-index.html
-templates/
-  base.html
-  index.html
-  rutas.html
-  participantes.html
-  recursos.html
-  solicitudes.html
-static/
-  css/style.css
-  js/script.js
-  img/
-requirements.txt
-```
+## Proyecto Integrador — Semana 10
 
-## Ejecución local de Flask
-1. Instalar dependencias:
+Se preservan las cinco rutas Flask (`/`, `/rutas`, `/participantes`, `/recursos`, `/solicitudes`). Las plantillas heredan de `base.html` y reutilizan componentes en `templates/components/`. Los datos provienen de listas y diccionarios en `app.py`; se muestran mediante `{{ variable }}`, bucles `{% for %}`, condicionales `{% if %}`/`{% else %}` y filtros (`upper`). No requiere base de datos.
+
+## Ejecutar Flask localmente
 
 ```bash
-pip install -r requirements.txt
-```
-
-2. Ejecutar la aplicación:
-
-```bash
+python -m pip install -r requirements.txt
 python app.py
 ```
 
-3. Abrir en el navegador:
+Abrir http://127.0.0.1:5000 y verificar cada ruta. GitHub Pages sirve el archivo `index.html` de la raíz y no ejecuta Python.
 
-```text
-http://127.0.0.1:5000
-```
+## Consultas
 
+El formulario está diseñado como cuaderno personal: utiliza `localStorage`. No envía correos ni mensajes a docentes o terceros.
+
+## Recursos
+
+Documentación pública de MDN, Bootstrap y Flask.
