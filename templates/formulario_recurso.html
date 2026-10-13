@@ -3,7 +3,7 @@
 {% block content %}
 <section class="section section-soft"><div class="container" style="max-width:960px">
 <span class="badge-soft mb-4">Práctica interactiva</span><h1 class="section-title">Comparte un recurso útil</h1>
-<p class="lead-text">Completa los campos del formulario. Los datos se validan en el servidor y se almacenan únicamente en memoria durante esta ejecución; no se envían a un docente.</p>
+<p class="lead-text">Completa los campos del formulario. Los datos se validan en el servidor y se guardan en una base de datos SQLite local; no se envían a un docente.</p>
 {% with mensajes = get_flashed_messages(with_categories=true) %}
 {% for categoria, mensaje in mensajes %}<div class="alert alert-{{ categoria }}" role="status">{{ mensaje }}</div>{% endfor %}
 {% endwith %}

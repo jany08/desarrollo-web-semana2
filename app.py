@@ -1,6 +1,8 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
 import os
 import secrets
+import sqlite3
+from pathlib import Path
 
 from forms.consulta_form import ConsultaForm
 from forms.ruta_form import RutaForm
@@ -12,11 +14,55 @@ app = Flask(__name__)
 # La clave temporal permite la ejecución local sin guardar secretos en GitHub.
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 
-# Datos temporales en memoria: se borran cuando se reinicia el servidor.
-CONSULTAS_DEMO = []
-RUTAS_PROPUESTAS = []
-PERFILES_DEMO = []
-RECURSOS_PROPUESTOS = []
+# Los registros se guardan en SQLite y sobreviven al reinicio de Flask.
+DB_PATH = Path(__file__).resolve().parent / "data" / "daw_uea.db"
+
+
+def conexion():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def inicializar_bd():
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with conexion() as conn:
+        conn.execute("""CREATE TABLE IF NOT EXISTS consultas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL, correo TEXT NOT NULL,
+            tema TEXT NOT NULL, mensaje TEXT NOT NULL
+        )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS rutas_propuestas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL, nivel TEXT NOT NULL, objetivo TEXT NOT NULL
+        )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS perfiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            alias TEXT NOT NULL, nivel TEXT NOT NULL, interes TEXT NOT NULL
+        )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS recursos_propuestos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL, categoria TEXT NOT NULL,
+            descripcion TEXT NOT NULL, enlace TEXT NOT NULL
+        )""")
+        conn.commit()
+
+
+def guardar(sql, valores):
+    with conexion() as conn:
+        conn.execute(sql, valores)
+        conn.commit()
+
+
+def consultar(sql):
+    conn = conexion()
+    try:
+        return conn.execute(sql).fetchall()
+    finally:
+        conn.close()
+
+
+inicializar_bd()
 PLATAFORMA = {"nombre": "DAW UEA", "lema": "Aprende, practica y crea"}
 NAVEGACION = [
     {"titulo": "Inicio", "endpoint": "inicio"},
@@ -82,44 +128,49 @@ def solicitudes():
 def nueva_consulta():
     form = ConsultaForm()
     if form.validate_on_submit():
-        CONSULTAS_DEMO.append({"nombre": form.nombre.data.strip(), "tema": form.tema.data,
-                               "mensaje": form.mensaje.data.strip()})
-        flash("Tu consulta se registró para esta sesión de demostración.", "success")
+        guardar("INSERT INTO consultas (nombre,correo,tema,mensaje) VALUES (?,?,?,?)",
+                (form.nombre.data.strip(), form.correo.data.strip(), form.tema.data, form.mensaje.data.strip()))
+        flash("Consulta guardada correctamente en esta aplicación local.", "success")
         return redirect(url_for("nueva_consulta"))
-    return render_template("formulario_consulta.html", form=form, registros=CONSULTAS_DEMO, active="solicitudes")
+    registros = consultar("SELECT id,nombre,tema,mensaje FROM consultas ORDER BY id DESC")
+    return render_template("formulario_consulta.html", form=form, registros=registros, active="solicitudes")
 
 
 @app.route("/rutas/proponer", methods=["GET", "POST"])
 def proponer_ruta():
     form = RutaForm()
     if form.validate_on_submit():
-        RUTAS_PROPUESTAS.append({"titulo": form.titulo.data.strip(), "nivel": form.nivel.data,
-                                "objetivo": form.objetivo.data.strip()})
-        flash("Propuesta registrada para esta sesión de práctica.", "success")
+        guardar("INSERT INTO rutas_propuestas (titulo,nivel,objetivo) VALUES (?,?,?)",
+                (form.titulo.data.strip(), form.nivel.data, form.objetivo.data.strip()))
+        flash("Propuesta guardada correctamente en esta aplicación local.", "success")
         return redirect(url_for("proponer_ruta"))
-    return render_template("formulario_ruta.html", form=form, registros=RUTAS_PROPUESTAS, active="rutas")
+    registros = consultar("SELECT id,titulo,nivel,objetivo FROM rutas_propuestas ORDER BY id DESC")
+    return render_template("formulario_ruta.html", form=form, registros=registros, active="rutas")
 
 
 @app.route("/participantes/perfil", methods=["GET", "POST"])
 def crear_perfil():
     form = ParticipanteForm()
     if form.validate_on_submit():
-        PERFILES_DEMO.append({"alias": form.alias.data.strip(), "nivel": form.nivel.data,
-                             "interes": form.interes.data.strip()})
-        flash("Perfil de aprendizaje registrado temporalmente.", "success")
+        guardar("INSERT INTO perfiles (alias,nivel,interes) VALUES (?,?,?)",
+                (form.alias.data.strip(), form.nivel.data, form.interes.data.strip()))
+        flash("Perfil guardado correctamente en esta aplicación local.", "success")
         return redirect(url_for("crear_perfil"))
-    return render_template("formulario_participante.html", form=form, registros=PERFILES_DEMO, active="participantes")
+    registros = consultar("SELECT id,alias,nivel,interes FROM perfiles ORDER BY id DESC")
+    return render_template("formulario_participante.html", form=form, registros=registros, active="participantes")
 
 
 @app.route("/recursos/sugerir", methods=["GET", "POST"])
 def sugerir_recurso():
     form = RecursoForm()
     if form.validate_on_submit():
-        RECURSOS_PROPUESTOS.append({"titulo": form.titulo.data.strip(), "categoria": form.categoria.data,
-                                   "descripcion": form.descripcion.data.strip(), "enlace": form.enlace.data})
-        flash("Recurso agregado a la lista temporal de sugerencias.", "success")
+        guardar("INSERT INTO recursos_propuestos (titulo,categoria,descripcion,enlace) VALUES (?,?,?,?)",
+                (form.titulo.data.strip(), form.categoria.data, form.descripcion.data.strip(), form.enlace.data.strip()))
+        flash("Recurso guardado correctamente en esta aplicación local.", "success")
         return redirect(url_for("sugerir_recurso"))
-    return render_template("formulario_recurso.html", form=form, registros=RECURSOS_PROPUESTOS, active="recursos")
+    registros = consultar("SELECT id,titulo,categoria,descripcion,enlace FROM recursos_propuestos ORDER BY id DESC")
+    return render_template("formulario_recurso.html", form=form, registros=registros, active="recursos")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

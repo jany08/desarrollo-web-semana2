@@ -1,20 +1,28 @@
-# DAW UEA — Aprende a crear páginas web
+# DAW UEA – Plataforma educativa para aprender a crear páginas web
 
-Plataforma educativa con rutas de HTML, CSS, Bootstrap, JavaScript y Flask, recursos gratuitos y ejercicios. La interfaz pública mantiene su propósito educativo.
+## Proyecto Integrador U3 · Semana 12/16
+Esta versión conserva el frontend educativo y las rutas, formularios y validaciones de las semanas anteriores. Incorpora SQLite para guardar localmente consultas, propuestas de rutas, perfiles de aprendizaje y recomendaciones de recursos.
 
-## Desarrollo académico: avance 11/16
+## Cómo ejecutarlo localmente
+Desde la carpeta del proyecto, con Python instalado:
 
-Se mantienen todas las rutas, plantillas y recursos de las semanas previas. Se añade la carpeta `forms/` con cuatro clases `FlaskForm` adaptadas a los módulos de DAW UEA y cuatro vistas de práctica con GET/POST, mensajes de errores por campo, `DataRequired`, `Length`, `Email`, `URL`, `form.hidden_tag()` (CSRF) y `validate_on_submit()`.
+```bash
+python -m venv .venv
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python app.py
+```
 
-Las rutas nuevas son `/solicitudes/nueva`, `/rutas/proponer`, `/participantes/perfil` y `/recursos/sugerir`. Los registros son demostrativos y permanecen en memoria durante la ejecución del servidor; al reiniciarlo se pierden. El formulario del frontend publicado usa `localStorage`, de modo que no debe interpretarse como una herramienta de envío de consultas a docentes.
+Abrir `http://127.0.0.1:5000`. Completar alguno de los formularios, comprobar la tabla de registros, detener el servidor, iniciarlo de nuevo y verificar que los datos permanecen.
 
-## Ejecución local
+## Persistencia SQLite
+- Archivo: `data/daw_uea.db` (base inicial sin datos personales).
+- Clave primaria `id` en cada tabla.
+- Se usa `sqlite3.connect()`, `CREATE TABLE IF NOT EXISTS`, `INSERT` con parámetros `?`, `commit()`, `SELECT`, `fetchall()` y cierre de conexión.
+- El guardado ocurre únicamente tras `form.validate_on_submit()`. Flask-WTF mantiene CSRF con `form.hidden_tag()` y la clave de sesión.
+- La base real de cada computadora permanece local. Evita subir datos personales a un repositorio público.
 
-1. Crea y activa un entorno virtual de Python.
-2. Instala las dependencias con `python -m pip install -r requirements.txt`.
-3. Ejecuta `python app.py` y visita `http://127.0.0.1:5000/`.
-4. Comprueba cada formulario con campos vacíos, valores incorrectos y datos válidos. Verifica el token CSRF y que la navegación siga funcionando.
+## Publicación
+GitHub Pages sirve el archivo estático `index.html` de la raíz. Las rutas Flask, formularios servidor y SQLite se prueban de manera local; GitHub Pages no ejecuta Python.
 
-En producción define `SECRET_KEY` mediante una variable de entorno persistente y segura. Para pruebas locales la aplicación genera una clave temporal aleatoria al arrancar.
-
-GitHub Pages únicamente publica la interfaz estática `index.html` junto con CSS y JavaScript. Las rutas Flask-WTF requieren el servidor local.
+Este proyecto tiene temática educativa. Los nombres comerciales de la guía son ejemplos para otras temáticas.
