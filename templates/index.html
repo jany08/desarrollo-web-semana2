@@ -1,36 +1,16 @@
 {% extends "base.html" %}
-{% block title %}DAW UEA | Inicio{% endblock %}
+{% block title %}DAW UEA | Aprende a crear páginas web{% endblock %}
 {% block content %}
-<header class="hero">
-  <div class="hero-content">
-    <span class="badge-soft">Aplicación Flask ejecutada localmente</span>
-    <h1>Aprende Desarrollo de Aplicaciones Web</h1>
-    <p>La versión Flask organiza el proyecto educativo mediante rutas, plantillas Jinja2 y recursos estáticos separados.</p>
-    <div class="hero-actions">
-      <a class="btn-main" href="{{ url_for('rutas') }}">Ver rutas</a>
-      <a class="btn-outline-soft" href="{{ url_for('solicitudes') }}">Ver solicitudes</a>
-    </div>
-  </div>
-</header>
-
-<section class="section">
-  <div class="container text-center">
-    <span class="badge-soft mb-4">Módulos internos</span>
-    <h2 class="section-title">Contenido organizado con rutas Flask</h2>
-    <p class="lead-text mx-auto" style="max-width:850px">Cada módulo se renderiza desde una vista independiente y hereda el encabezado, menú y pie de página definidos en base.html.</p>
-    <div class="row g-4 mt-4 text-start">
-      {% for modulo in modulos %}
-      <article class="col-md-6 col-xl-3">
-        <div class="card-clean">
-          <div class="card-body">
-            <span class="pill">{{ modulo.etiqueta }}</span>
-            <h3 class="h4 fw-bold">{{ modulo.nombre }}</h3>
-            <p class="muted-text">{{ modulo.descripcion }}</p>
-          </div>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+<header class="hero"><div class="hero-content"><span class="badge-soft">Tu espacio para aprender desarrollo web</span><h1>De tu primera etiqueta a tu propia página web</h1><p>Aprende paso a paso a estructurar, diseñar y publicar sitios web. Encuentra explicaciones claras, ejemplos para practicar y recursos que puedes usar a tu ritmo.</p><div class="hero-actions"><a class="btn-main" href="{{ url_for('rutas') }}">Empezar a aprender</a><a class="btn-outline-soft" href="{{ url_for('recursos') }}">Explorar recursos</a></div></div></header>
+<section class="section" id="bienvenida"><div class="container"><div class="row align-items-center g-5"><div class="col-lg-6"><span class="badge-soft mb-4">Bienvenido a {{ plataforma.nombre|upper }}</span><h2 class="section-title">Aprende creando, desde cero</h2><p class="lead-text">¿Nunca has creado una página? Comienza con HTML para organizar contenido, usa CSS para darle personalidad y añade interacciones con JavaScript. Cuando domines lo esencial, descubre cómo Flask organiza sitios en varias páginas.</p><p class="lead-text">Cada tema incluye una meta de aprendizaje y una actividad corta para que compruebes tus avances sin depender de conocimientos previos.</p><a class="btn btn-green text-white" href="{{ url_for('rutas') }}">Conocer las rutas</a></div><div class="col-lg-6"><div class="image-card"><img src="{{ url_for('static',filename='img/learning-path.svg') }}" alt="Ilustración de aprendizaje de programación web" class="img-fluid"></div></div></div></div></section>
+<section class="section section-soft" id="explorar"><div class="container text-center"><span class="badge-soft mb-4">¿Qué encontrarás?</span><h2 class="section-title">Un lugar para aprender y practicar</h2><p class="lead-text mx-auto" style="max-width:800px">Elige la sección que necesitas y aprende a tu propio ritmo.</p><div class="row g-4 mt-4 text-start">{% for modulo in modulos %}<article class="col-md-6 col-xl-3"><div class="card-clean"><div class="card-body d-flex flex-column"><span class="pill">{{ modulo.etiqueta }}</span><h3 class="h4 fw-bold">{{ modulo.nombre }}</h3><p class="muted-text flex-grow-1">{{ modulo.descripcion }}</p><a class="btn btn-green text-white" href="{{ url_for(modulo.endpoint) }}">Explorar</a></div></div></article>{% endfor %}</div></div></section>
+<section class="section"><div class="container"><span class="badge-soft mb-4">Prueba por ti mismo</span><h2 class="section-title">Tu primer ejemplo en HTML</h2><p class="lead-text">HTML describe el contenido de una página. Copia el siguiente ejemplo en un archivo llamado <code>index.html</code> y ábrelo en tu navegador.</p><pre class="lesson-code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;Mi sitio&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;¡Hola, mundo!&lt;/h1&gt;
+  &lt;p&gt;Esta es mi primera página web.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p class="lead-text">Reto: cambia el título y escribe un párrafo sobre tu idea de sitio web.</p></div></section>
+<section class="section section-soft"><div class="container text-center"><h2 class="section-title">¿No sabes por dónde empezar?</h2><p class="lead-text mx-auto">Elige HTML si es tu primer día, o solicita orientación sobre el tema que quieres practicar.</p><a class="btn btn-green text-white" href="{{ url_for('solicitudes') }}">Ir al formulario de consultas</a></div></section>
 {% endblock %}
