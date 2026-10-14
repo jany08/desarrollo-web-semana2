@@ -3,6 +3,11 @@ import os
 import secrets
 from contextlib import contextmanager
 from flask_wtf import FlaskForm
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from forms.login_form import LoginForm
+from forms.usuario_form import UsuarioForm
+from models import Usuario
 from conexion.conexion import obtener_conexion
 
 from forms.consulta_form import ConsultaForm
@@ -14,6 +19,11 @@ app = Flask(__name__)
 # Para despliegues reales configura SECRET_KEY como variable de entorno.
 # La clave temporal permite la ejecución local sin guardar secretos en GitHub.
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+login_manager.login_message = "Debes iniciar sesión para acceder a esta página."
+login_manager.login_message_category = "warning"
 
 # PostgreSQL guarda permanentemente los registros. DB_PASSWORD se define
 # exclusivamente en el entorno local; no se incorpora al repositorio.
@@ -35,6 +45,11 @@ def inicializar_bd():
     # Se conservan las cuatro tablas de la Semana 13 creadas en pgAdmin.
     with conexion() as conn:
         with conn.cursor() as cur:
+            cur.execute("""CREATE TABLE IF NOT EXISTS usuarios (
+                id SERIAL PRIMARY KEY,
+                usuario VARCHAR(50) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL
+            )""")
             cur.execute("""CREATE TABLE IF NOT EXISTS rutas_propuestas (
                 id SERIAL PRIMARY KEY,
                 titulo TEXT NOT NULL,
@@ -67,6 +82,73 @@ def consultar(sql, valores=()):
         with conn.cursor() as cur:
             cur.execute(sql, valores)
             return cur.fetchall()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        registros = consultar("SELECT id, usuario FROM usuarios WHERE id=%s", (int(user_id),))
+    except (ValueError, TypeError):
+        return None
+    return Usuario(registros[0]["id"], registros[0]["usuario"]) if registros else None
+
+
+@app.route("/registro", methods=["GET", "POST"])
+def registro():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+    form = UsuarioForm()
+    if form.validate_on_submit():
+        nombre = form.usuario.data.strip()
+        existe = consultar("SELECT id FROM usuarios WHERE usuario=%s", (nombre,))
+        if existe:
+            form.usuario.errors.append("Ese nombre de usuario ya está registrado.")
+        else:
+            try:
+                guardar("INSERT INTO usuarios (usuario, password) VALUES (%s, %s)",
+                        (nombre, generate_password_hash(form.password.data)))
+            except Exception:
+                flash("No se pudo completar el registro. Comprueba si el usuario ya existe.", "danger")
+            else:
+                flash("Usuario registrado. Ahora puedes iniciar sesión.", "success")
+                return redirect(url_for("login"))
+    return render_template("registro.html", form=form, active="registro")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+    form = LoginForm()
+    if form.validate_on_submit():
+        registros = consultar("SELECT id, usuario, password FROM usuarios WHERE usuario=%s",
+                             (form.usuario.data.strip(),))
+        usuario = registros[0] if registros else None
+        if usuario and check_password_hash(usuario["password"], form.password.data):
+            login_user(Usuario(usuario["id"], usuario["usuario"]))
+            flash("Bienvenido a DAW UEA.", "success")
+            # No se utiliza una URL arbitraria para evitar redirecciones abiertas.
+            return redirect(url_for("dashboard"))
+        flash("Usuario o contraseña incorrectos.", "danger")
+    return render_template("login.html", form=form, active="login")
+
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    total = consultar("SELECT COUNT(*) AS cantidad FROM recursos_propuestos")[0]["cantidad"]
+    return render_template("dashboard.html", total=total, active="dashboard")
+
+
+@app.route("/logout", methods=["POST"])
+@login_required
+def logout():
+    form = EliminarForm()
+    if not form.validate_on_submit():
+        abort(400)
+    logout_user()
+    flash("Has cerrado sesión de forma segura.", "success")
+    return redirect(url_for("login"))
 
 
 # Se inicializa al arrancar; PostgreSQL debe estar activo y configurado.
@@ -110,7 +192,7 @@ PARTICIPANTES = [
 
 @app.context_processor
 def datos_comunes():
-    return {"plataforma": PLATAFORMA, "navegacion": NAVEGACION}
+    return {"plataforma": PLATAFORMA, "navegacion": NAVEGACION, "logout_form": EliminarForm()}
 
 @app.route("/")
 def inicio():
@@ -196,7 +278,7 @@ PLANTILLA_GESTION = """<!doctype html>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></head>
 <body class="bg-light"><nav class="navbar navbar-dark bg-dark"><div class="container">
 <a class="navbar-brand" href="{{ url_for('inicio') }}">DAW UEA</a>
-<a class="btn btn-outline-light btn-sm" href="{{ url_for('recursos') }}">Recursos educativos</a>
+<span class="text-light">Usuario: {{ current_user.usuario }}</span> <a class="btn btn-outline-light btn-sm" href="{{ url_for('dashboard') }}">Panel privado</a>
 </div></nav><main class="container py-5"><h1>Administración de recursos educativos</h1>
 <p>Consulta, modifica y elimina las propuestas registradas en PostgreSQL.</p>
 {% with mensajes = get_flashed_messages(with_categories=true) %}
@@ -227,12 +309,14 @@ PLANTILLA_EDICION = """<!doctype html><html lang="es"><head><meta charset="utf-8
 
 
 @app.route('/recursos/gestionar')
+@login_required
 def gestionar_recursos():
     registros = consultar('SELECT id,titulo,categoria,descripcion,enlace FROM recursos_propuestos ORDER BY id DESC')
     return render_template_string(PLANTILLA_GESTION, registros=registros, eliminar_form=EliminarForm())
 
 
 @app.route('/recursos/<int:recurso_id>/editar', methods=['GET','POST'])
+@login_required
 def editar_recurso(recurso_id):
     resultados = consultar('SELECT id,titulo,categoria,descripcion,enlace FROM recursos_propuestos WHERE id=%s', (recurso_id,))
     if not resultados:
@@ -251,6 +335,7 @@ def editar_recurso(recurso_id):
 
 
 @app.route('/recursos/<int:recurso_id>/eliminar', methods=['POST'])
+@login_required
 def eliminar_recurso(recurso_id):
     form = EliminarForm()
     if not form.validate_on_submit():

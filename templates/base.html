@@ -15,6 +15,7 @@
 
   <!-- bloque reutilizable para el contenido principal de cada vista -->
   <main>
+    <div class="container mt-3">{% with mensajes = get_flashed_messages(with_categories=true) %}{% for categoria, mensaje in mensajes %}<div class="alert alert-{{ categoria if categoria in ['success','warning','danger','info'] else 'info' }}" role="status">{{ mensaje }}</div>{% endfor %}{% endwith %}</div>
     {% block content %}{% endblock %}
   </main>
 

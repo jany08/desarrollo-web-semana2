@@ -6,3 +6,6 @@ CREATE TABLE IF NOT EXISTS consultas (id_consulta SERIAL PRIMARY KEY,nombre VARC
 CREATE TABLE IF NOT EXISTS rutas_propuestas (id SERIAL PRIMARY KEY,titulo TEXT NOT NULL,nivel TEXT NOT NULL,objetivo TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS perfiles (id SERIAL PRIMARY KEY,alias TEXT NOT NULL,nivel TEXT NOT NULL,interes TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS recursos_propuestos (id SERIAL PRIMARY KEY,titulo TEXT NOT NULL,categoria TEXT NOT NULL,descripcion TEXT NOT NULL,enlace TEXT NOT NULL);
+
+-- Semana 14: autenticación de usuarios con contraseñas hasheadas.
+CREATE TABLE IF NOT EXISTS usuarios (id SERIAL PRIMARY KEY, usuario VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL);
