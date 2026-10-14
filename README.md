@@ -1,28 +1,15 @@
-# DAW UEA – Plataforma educativa para aprender a crear páginas web
+# DAW UEA — Semana 13
+Plataforma educativa sobre desarrollo web. Conserva el frontend y formularios de semanas anteriores e incorpora persistencia PostgreSQL.
 
-## Proyecto Integrador U3 · Semana 12/16
-Esta versión conserva el frontend educativo y las rutas, formularios y validaciones de las semanas anteriores. Incorpora SQLite para guardar localmente consultas, propuestas de rutas, perfiles de aprendizaje y recomendaciones de recursos.
+## Configuración local
+Requiere Python y PostgreSQL. Crear la base `daw_uea` y ejecutar `sql/esquema.sql` en pgAdmin (si ya existen las tablas, `IF NOT EXISTS` evita duplicarlas).
+En PowerShell dentro de esta carpeta:
 
-## Cómo ejecutarlo localmente
-Desde la carpeta del proyecto, con Python instalado:
-
-```bash
-python -m venv .venv
-# Windows PowerShell: .venv\Scripts\Activate.ps1
+```powershell
 python -m pip install -r requirements.txt
+$env:DB_PASSWORD = 'TU_CONTRASEÑA_LOCAL'
 python app.py
 ```
+Abrir http://127.0.0.1:5000 . No compartir ni subir contraseñas. La variable DB_PASSWORD se aplica solo a la sesión. Puedes cambiar host/puerto/usuario con DB_HOST/DB_PORT/DB_USER.
 
-Abrir `http://127.0.0.1:5000`. Completar alguno de los formularios, comprobar la tabla de registros, detener el servidor, iniciarlo de nuevo y verificar que los datos permanecen.
-
-## Persistencia SQLite
-- Archivo: `data/daw_uea.db` (base inicial sin datos personales).
-- Clave primaria `id` en cada tabla.
-- Se usa `sqlite3.connect()`, `CREATE TABLE IF NOT EXISTS`, `INSERT` con parámetros `?`, `commit()`, `SELECT`, `fetchall()` y cierre de conexión.
-- El guardado ocurre únicamente tras `form.validate_on_submit()`. Flask-WTF mantiene CSRF con `form.hidden_tag()` y la clave de sesión.
-- La base real de cada computadora permanece local. Evita subir datos personales a un repositorio público.
-
-## Publicación
-GitHub Pages sirve el archivo estático `index.html` de la raíz. Las rutas Flask, formularios servidor y SQLite se prueban de manera local; GitHub Pages no ejecuta Python.
-
-Este proyecto tiene temática educativa. Los nombres comerciales de la guía son ejemplos para otras temáticas.
+GitHub Pages solo sirve la parte estática `index.html`; los formularios con Flask/PostgreSQL requieren ejecutar el servidor Python localmente. Se conserva `data/daw_uea.db` como respaldo de la Semana 12, pero la versión nueva usa PostgreSQL.
